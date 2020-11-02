@@ -24,3 +24,7 @@ Anthony, who has typically done daily/weekly music analysis videos and album rev
 
 ## Link to a feature list (backlog) for the whole project for your project board
 
+
+## Set up instructions
+
+link(https://docs.djangoproject.com/en/3.1/intro/tutorial01/)
