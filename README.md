@@ -39,7 +39,7 @@ Sean, age 27, is a young entrepreneur and owns a record label in which he produc
 
 Sean, who tends to create single hits, is now thinking of putting together a whole album of songs for an artist and wants to give the album a "concept" or "mood". He starts to turn to book reading to give him ideas for new lyrics and album concepts. Also, due to the number of songs that Sean has created throughout his career, he is starting to run out of ideas and needs a platform that could give him new ideas through books that pinpoint a specific mood and concept, while also giving him ideas for new song lyrics. Sean might use the Book Soundtrack Creator to create playlists using books that he likes the concept/theme of, and then look to the playlist that is put together by the software to get new inspiration.
 ## Link to a feature list (backlog) for the whole project for your project board
-
+link(https://trello.com/b/ORiO8Kk0/book-soundtrack-creator)
 
 ## Set up instructions
 
