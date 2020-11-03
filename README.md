@@ -30,3 +30,7 @@ Sara, who wants to make her meetings moore dynamic and cohesive is thinking abou
 
 ## Link to a feature list (backlog) for the whole project for your project board
 
+
+## Set up instructions
+
+link(https://docs.djangoproject.com/en/3.1/intro/tutorial01/)
