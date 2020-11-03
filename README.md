@@ -21,6 +21,12 @@ Anthony, age 30, hosts a large YouTube channel and business in which he reviews 
 
 Anthony, who has typically done daily/weekly music analysis videos and album reviews until this point, is now thinking about creating a new series of videos based on the mood/data of music as well as suggesting book recommendations relative to music. Anthony could use Book Soundtrack Creator in multiple ways. He could use it to determine if his initial analysis of a book and music pair is accurate. If he is uncertain of what music would pair well with a book this app could provide a solution. Lastly, as he reviews books and music, Book Soundtrack Creator can create a public playlist he can share with his followers.
 
+Aathira:
+
+Sara, 23 years old, has a book club and they want to listen to music while they have their meetings. This book club is based in Philadelphia and has an extensive reading list. She was born in Bethlehem and has recently started her organization when she moved to Philadelphia last year. She has a degree in art history and is currently working for the Philadelphia Museum of Art where she holds her meetings. 
+
+Sara, who wants to make her meetings moore dynamic and cohesive is thinking about incorporating this application with her weekly book selection. It is another way for her to connect with the other club members by having them discover new music together that relates to the book that they are reading. This application will just go ahead and create a playlist that matches the tone of the book automatically instead of Sara picking out songs on her own which takes up a lot of her time. With a playlist automatically generated she will be able to devote more time into topics to discuss during the reading sessions. 
+
 Tyler:
 
 Natalie, age 16, is a high school student in rural Pennsylvania. She plays sports and maintains good grades in school. She is involved in many after school activities, including book club. Her dad is a mechanic and her mom is a teacher who both share a passion for music and books. Natalie has also always been a big movie fan. Something that she always thought was missing from books was a soundtrack that plays like it does in movies. In her free time she really loves reading. When she found Book Soundtrack Creator, she realized that it was the perfect mix between her love for music and her love for books. 
