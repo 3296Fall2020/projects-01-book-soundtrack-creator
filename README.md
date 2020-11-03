@@ -21,6 +21,12 @@ Anthony, age 30, hosts a large YouTube channel and business in which he reviews 
 
 Anthony, who has typically done daily/weekly music analysis videos and album reviews until this point, is now thinking about creating a new series of videos based on the mood/data of music as well as suggesting book recommendations relative to music. Anthony could use Book Soundtrack Creator in multiple ways. He could use it to determine if his initial analysis of a book and music pair is accurate. If he is uncertain of what music would pair well with a book this app could provide a solution. Lastly, as he reviews books and music, Book Soundtrack Creator can create a public playlist he can share with his followers.
 
+Tyler:
+
+Natalie, age 16, is a high school student in rural Pennsylvania. She plays sports and maintains good grades in school. She is involved in many after school activities, including book club. Her dad is a mechanic and her mom is a teacher who both share a passion for music and books. Natalie has also always been a big movie fan. Something that she always thought was missing from books was a soundtrack that plays like it does in movies. In her free time she really loves reading. When she found Book Soundtrack Creator, she realized that it was the perfect mix between her love for music and her love for books. 
+
+Natalie really loves the app because she is able to really connect with her book club, especially now that everything is virtual. They are able to share playlists and find the perfect playlist for the books that they are reading and discussing. It is also perfect for Natalie’s little sister who loves getting read bedtime stories. Using Book Soundtrack Creator, Natalie is able to play songs in the background while reading to her sister before bedtime. 
+
 
 ## Link to a feature list (backlog) for the whole project for your project board
 
