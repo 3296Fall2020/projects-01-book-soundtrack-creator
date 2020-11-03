@@ -21,7 +21,11 @@ Anthony, age 30, hosts a large YouTube channel and business in which he reviews 
 
 Anthony, who has typically done daily/weekly music analysis videos and album reviews until this point, is now thinking about creating a new series of videos based on the mood/data of music as well as suggesting book recommendations relative to music. Anthony could use Book Soundtrack Creator in multiple ways. He could use it to determine if his initial analysis of a book and music pair is accurate. If he is uncertain of what music would pair well with a book this app could provide a solution. Lastly, as he reviews books and music, Book Soundtrack Creator can create a public playlist he can share with his followers.
 
+Alex:
 
+Sean, age 27, is a young entrepreneur and owns a record label in which he produces music, and hires bands/artists to play his music to make records. Although his business is based out of Atlanta, GA, his record label continues to attract new talent because of the music he produces (many of which soar to the top of the Billboards). He was born in New Orleans, LO, where he grew up around music and was exposed to many famous local artists in his early years. 
+
+Sean, who tends to create single hits, is now thinking of putting together a whole album of songs for an artist and wants to give the album a "concept" or "mood". He starts to turn to book reading to give him ideas for new lyrics and album concepts. Also, due to the number of songs that Sean has created throughout his career, he is starting to run out of ideas and needs a platform that could give him new ideas through books that pinpoint a specific mood and concept, while also giving him ideas for new song lyrics. Sean might use the Book Soundtrack Creator to create playlists using books that he likes the concept/theme of, and then look to the playlist that is put together by the software to get new inspiration.
 ## Link to a feature list (backlog) for the whole project for your project board
 
 
