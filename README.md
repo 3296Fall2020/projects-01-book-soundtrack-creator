@@ -27,7 +27,17 @@ Sara, 23 years old, has a book club and they want to listen to music while they 
 
 Sara, who wants to make her meetings moore dynamic and cohesive is thinking about incorporating this application with her weekly book selection. It is another way for her to connect with the other club members by having them discover new music together that relates to the book that they are reading. This application will just go ahead and create a playlist that matches the tone of the book automatically instead of Sara picking out songs on her own which takes up a lot of her time. With a playlist automatically generated she will be able to devote more time into topics to discuss during the reading sessions. 
 
+Tyler:
 
+Natalie, age 16, is a high school student in rural Pennsylvania. She plays sports and maintains good grades in school. She is involved in many after school activities, including book club. Her dad is a mechanic and her mom is a teacher who both share a passion for music and books. Natalie has also always been a big movie fan. Something that she always thought was missing from books was a soundtrack that plays like it does in movies. In her free time she really loves reading. When she found Book Soundtrack Creator, she realized that it was the perfect mix between her love for music and her love for books. 
+
+Natalie really loves the app because she is able to really connect with her book club, especially now that everything is virtual. They are able to share playlists and find the perfect playlist for the books that they are reading and discussing. It is also perfect for Natalie’s little sister who loves getting read bedtime stories. Using Book Soundtrack Creator, Natalie is able to play songs in the background while reading to her sister before bedtime. 
+
+Alex:
+
+Sean, age 27, is a young entrepreneur and owns a record label in which he produces music, and hires bands/artists to play his music to make records. Although his business is based out of Atlanta, GA, his record label continues to attract new talent because of the music he produces (many of which soar to the top of the Billboards). He was born in New Orleans, LO, where he grew up around music and was exposed to many famous local artists in his early years. 
+
+Sean, who tends to create single hits, is now thinking of putting together a whole album of songs for an artist and wants to give the album a "concept" or "mood". He starts to turn to book reading to give him ideas for new lyrics and album concepts. Also, due to the number of songs that Sean has created throughout his career, he is starting to run out of ideas and needs a platform that could give him new ideas through books that pinpoint a specific mood and concept, while also giving him ideas for new song lyrics. Sean might use the Book Soundtrack Creator to create playlists using books that he likes the concept/theme of, and then look to the playlist that is put together by the software to get new inspiration.
 ## Link to a feature list (backlog) for the whole project for your project board
 
 
