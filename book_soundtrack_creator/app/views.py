@@ -7,6 +7,9 @@ from .models import *
 def index(request):
     return render(request, 'home.html')
 
+def login(request):
+    return render(request, 'login.html')
+    
 def book_selector(request):
     books = Book.objects.all()
     return render(request, 'book_selector.html', {'books' : books})
@@ -27,4 +30,22 @@ def set_user_info(request):
     user.userID = userID
     user.save()
     return render(request, 'book_selector.html')
+
+def book_emotion_classifier(request, *args, **kwargs):
+    # book = Book.objects.create()
+
+    # Extract the book text
+    book = Book.objects.all().get(pk = kwargs["id"])
+    bookText = book.bookText
+    # print(bookText)
+    bookText.open(mode='r')
+    lines = bookText.readlines()
+    bookText.close()
+    
+    # Call emotion classifier and analyze bookText (TO-DO: Figure out type of field (dictionary) and check correctness of algorithm)
+    emotion = Book.emotion_classifier(lines)  # Returns a dictionary of {emotion: value}
+    # emotion = "test emotion"
+    book.bookEmotion = emotion
+    book.save()
+    return render(request, 'book_stats.html', {"book":book})
     

@@ -1,5 +1,6 @@
 from django.db import models
-from emotion_classifier_nrclex import *
+# Import required NRCLex modules
+from nrclex import NRCLex
 
 # Create your models here.
 
@@ -8,11 +9,22 @@ class Book(models.Model):
                                 max_length = 255, blank = False)
     wordCount = models.CharField(verbose_name = "Number of words", max_length = 255, blank = False)
     bookText = models.FileField(verbose_name = "Book text" , upload_to = 'books/')
+    # TO-DO: Not sure what field this should be
+    bookEmotion = models.CharField(verbose_name = "Book Emotion", max_length = 255)
 
-    # Call emotion classifier and analyze bookText (TO-DO: Figure out type of field (dictionary) and check correctness of algorithm)
-    emotion = emotion_classifier(bookText)  # emotion is a dictionary of {emotion: value}
-    bookEmotion = models.CharField(verbose_name = "Emotion", max_length = 100000, blank = False)    # Should store dictionary
+    @classmethod
+    # Create emotion classifier method for Book class
+    def emotion_classifier(self, text):
+        print("works")
+        # Iterate through items in list in text
+        for i in range(len(text)):
+            # Create emotion object
+            emotion = NRCLex(text[i])
+            # Return list of top emotions from text
+            return emotion.top_emotions
 
+    def __str__(self):
+        return self.title
 
 class User(models.Model):
     email = models.CharField(verbose_name = "User Email", max_length = 255, blank = False)
@@ -20,7 +32,5 @@ class User(models.Model):
     name = models.CharField(verbose_name = "Spotify display name", max_length = 255, blank = True)
     # profilePic = models.
     # password?
-
-
 
 
