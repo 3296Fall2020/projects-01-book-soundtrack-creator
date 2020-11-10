@@ -27,4 +27,20 @@ def set_user_info(request):
     user.userID = userID
     user.save()
     return render(request, 'book_selector.html')
+
+def book_emotion_classifier(request):
+    book = Book.objects.create()
+
+    # Extract the book text
+    f = Book.objects.all().get(id=0).bookText
+    f.open(mode='rb')
+    lines = f.readlines()
+    f.close()
+
+    # Call emotion classifier and analyze bookText (TO-DO: Figure out type of field (dictionary) and check correctness of algorithm)
+    emotion = Book.emotion_classifier(lines)  # Returns a dictionary of {emotion: value}
+
+    book.bookEmotion = emotion
+
+    # return render(request, 'WhateverHTMLPageWeArePuttingThisOn')
     
