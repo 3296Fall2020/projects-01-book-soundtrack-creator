@@ -7,6 +7,9 @@ from .models import *
 def index(request):
     return render(request, 'home.html')
 
+def login(request):
+    return render(request, 'login.html')
+    
 def book_selector(request):
     books = Book.objects.all()
     return render(request, 'book_selector.html', {'books' : books})
