@@ -26,7 +26,7 @@ SECRET_KEY = 'SOME_KEY_NON_PROD_TESTING_LOCALLY'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -113,5 +113,6 @@ USE_I18N = True
 
 USE_L10N = True
 
-
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"), '/static/']

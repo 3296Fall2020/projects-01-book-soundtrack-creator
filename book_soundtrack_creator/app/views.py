@@ -4,6 +4,8 @@ from .models import *
 import spotipy
 import spotipy.util as util
 from spotipy import oauth2
+
+from matplotlib import pyplot as plt
 # Create your views here.
 
 scope = 'user-library-read'
@@ -11,7 +13,6 @@ SPOTIPY_CLIENT_ID = ''
 SPOTIPY_CLIENT_SECRET = ''
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
 username = ''
-
 
 def index(request):
     return render(request, 'home.html')
@@ -22,6 +23,14 @@ def login(request):
 def book_selector(request):
     books = Book.objects.all()
     return render(request, 'book_selector.html', {'books' : books})
+   
+   
+def book_import(request):
+    return render (request, 'book_import.html')
+
+def book_upload(request):
+    if request.method == 'POST':
+        print("works")
 
 def set_user_info(request):
     response = ""
@@ -55,10 +64,21 @@ def book_emotion_classifier(request, *args, **kwargs):
     emotion = Book.emotion_classifier(lines)  # Returns a dictionary of {emotion: value}
     # emotion = "test emotion"
     book.bookEmotion = emotion
+
+    # Create graph for current book
+    keys = book.bookEmotion.keys()
+    values = book.bookEmotion.values()
+    graph = plt.figure()
+    plt.bar(keys, values)
+    plt.suptitle('Emotion Analysis of ' + str(book.title))
+    plt.xticks(rotation='82.5')
+    graph = plt.savefig('static/img/' + book.title.replace(' ', '_') + '_graph.png')
+    book.bookEmotionGraph = graph
+
     book.save()
+
     return render(request, 'book_stats.html', {"book":book})
-
-
+  
 def initial_sign_in(request):
     return render(request, 'initial_sign_in.html')
 
