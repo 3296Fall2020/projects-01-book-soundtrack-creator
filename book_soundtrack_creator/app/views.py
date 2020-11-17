@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, Http404
 from .models import *
-# Create your views here.
+from matplotlib import pyplot as plt
 
+# Create your views here.
 
 def index(request):
     return render(request, 'home.html')
@@ -50,7 +51,19 @@ def book_emotion_classifier(request, *args, **kwargs):
     emotion = Book.emotion_classifier(lines)  # Returns a dictionary of {emotion: value}
     # emotion = "test emotion"
     book.bookEmotion = emotion
+
+    # Create graph for current book
+    keys = book.bookEmotion.keys()
+    values = book.bookEmotion.values()
+    graph = plt.figure()
+    plt.bar(keys, values)
+    plt.suptitle('Emotion Analysis of ' + str(book.title))
+    plt.xticks(rotation='82.5')
+    graph = plt.savefig('static/img/' + book.title.replace(' ', '_') + '_graph.png')
+    book.bookEmotionGraph = graph
+
     book.save()
+
     return render(request, 'book_stats.html', {"book":book})
     
 
