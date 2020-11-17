@@ -14,6 +14,10 @@ def login(request):
 def book_selector(request):
     books = Book.objects.all()
     return render(request, 'book_selector.html', {'books' : books})
+   
+   
+def book_import(request):
+    return render (request, 'book_import.html')
 
 def set_user_info(request):
     response = ""
@@ -62,3 +66,4 @@ def book_emotion_classifier(request, *args, **kwargs):
 
     return render(request, 'book_stats.html', {"book":book})
     
+

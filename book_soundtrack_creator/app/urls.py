@@ -8,5 +8,6 @@ urlpatterns = [
     path("book_selector/", views.book_selector, name="book_selector"),
     path("set_user_info/", views.set_user_info, name = "set_user_info"),
     path("book_emotion_classifier/<id>", views.book_emotion_classifier, name = "book emotion classifier"),
-    path("login/", views.login, name = "login")
+    path("login/", views.login, name = "login"),
+    path("book_import/", views.book_import, name = "book_import")
 ]
