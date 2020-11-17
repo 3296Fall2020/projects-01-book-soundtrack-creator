@@ -26,11 +26,13 @@
                 padding: 20px 0 20px 0;
             }
             .button{
-                /* border: 0px; */
-                border-radius: 5%;
-                position: relative;
-                top:0;
-                font-size: large;
+               /* border: 0px; */
+                width: 100%;
+                padding: 15px;
+                border: 0;
+                box-sizing: border-box;
+                cursor: pointer;
+                font-size: bold;
                 /* box-shadow: 1px 1px 1px; */
                 transition: width .5s;
             }
@@ -50,7 +52,8 @@
                 <button class = "button" onclick=enterBook() id = "enter">Go Enter A Book</button>
             </div><br> -->
             <a href="./book_import.html">
-                <button class = "back" style="text-align: center;">Enter a book</button>
+                <!--The reason why I have the word button in front of enter button is because that is what signifies that specific button when working with css-->
+                <button class = "button enter button">Enter a book</button>
             </a><br>
             <!--This row and column system will house the books being read in by Django-->
             <div class="row">
@@ -63,24 +66,25 @@
                                 <embed width="100%" src="{{book.title}}">
                             {% elif book.image != "" %}
                                 <img src= "{{MEDIA_URL}}{{book.image}}" class="card-img-top" width="107.5%" height="200">    
-                            {%endif%}
+                            {% endif %}
                         </div>
                         <div class = "wordCount"> {{book.wordCount}}
                             {% if book.wordCount == "" %}
                                 <p>Word count not available</p>
-                            {%endif%}
+                            {% endif %}
                         </div>
                         <div class = "bookText"> {{book.bookText}}
                             {% if book.bookText == "" %}
                                 <p>Book text not available</p>
-                            {%endif%}
+                            {% endif %}
                         </div>
                         <div class = "desc"> {{ book.emotion }}
                             {% if book.emotion == "" %}
                                 <p>Book emotion not available</p>
-                            {%endif%}
+                            {% endif %}
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
 
@@ -99,6 +103,8 @@
 <!--TO DO LIST-->
 
 <!--See if I need a JS file for this html file, I'm not calling any methods in here-->
-<!--Check to see if everything I made is running well-->
+<!--Check to see if everything I made is running well, run the server with: -->
 <!--Center the button to go to the import page, in this html file-->
 <!--Make sure that the import book page only takes in txt files and nothing else-->
+<!--Add the ability to click on a book that is present in the columns and have that do something from there, lead to spotify?-->
+<!--Add the ability to do something after a book is imported in, should lead to spotidy?-->
