@@ -9,7 +9,7 @@ from spotipy import oauth2
 scope = 'user-library-read'
 SPOTIPY_CLIENT_ID = ''
 SPOTIPY_CLIENT_SECRET = ''
-SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/callback/'
+SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
 username = ''
 
 
