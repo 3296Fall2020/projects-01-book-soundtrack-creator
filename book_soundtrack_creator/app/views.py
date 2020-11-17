@@ -19,6 +19,10 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
+def book_upload(request):
+    if request.method == 'POST':
+        print("works")
+
 def set_user_info(request):
     response = ""
     email = ""
