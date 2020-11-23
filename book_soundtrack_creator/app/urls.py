@@ -10,7 +10,7 @@ urlpatterns = [
     path("book_emotion_classifier/<id>", views.book_emotion_classifier, name = "book emotion classifier"),
     path("login/", views.login, name = "login"),
     path("initial_sign_in/", views.initial_sign_in , name="initial_sign_in"),
-    path("sign_in/", views.sign_in, name="sign_in")
+    path("sign_in/", views.sign_in, name="sign_in"),
     path("book_import/", views.book_import, name = "book_import"),
     path("book_upload/", views.book_upload, name = "book_upload")
 ]

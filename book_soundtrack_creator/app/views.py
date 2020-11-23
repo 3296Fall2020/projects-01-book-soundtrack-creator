@@ -66,14 +66,14 @@ def book_emotion_classifier(request, *args, **kwargs):
     book.bookEmotion = emotion
 
     # Create graph for current book
-    keys = book.bookEmotion.keys()
-    values = book.bookEmotion.values()
-    graph = plt.figure()
-    plt.bar(keys, values)
-    plt.suptitle('Emotion Analysis of ' + str(book.title))
-    plt.xticks(rotation='82.5')
-    graph = plt.savefig('static/img/' + book.title.replace(' ', '_') + '_graph.png')
-    book.bookEmotionGraph = graph
+    # keys = book.bookEmotion.keys()
+    # values = book.bookEmotion.values()
+    # graph = plt.figure()
+    # plt.bar(keys, values)
+    # plt.suptitle('Emotion Analysis of ' + str(book.title))
+    # plt.xticks(rotation='82.5')
+    # graph = plt.savefig('static/img/' + book.title.replace(' ', '_') + '_graph.png')
+    # book.bookEmotionGraph = graph
 
     book.save()
 
