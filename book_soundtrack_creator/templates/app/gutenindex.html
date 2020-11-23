@@ -1,0 +1,23 @@
+{% include "navbar.html" %}
+{% load static %}
+<html>
+    <body style="margin: 5%;">
+
+        <head>
+            <script src = "{%static '/js/gutenindex.js' %}"></script>
+          
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        </head>
+        <h1 style="text-align: center;">Gutenberg books</h1>
+        <div class="container" id = "container">
+            <form align = "center" method="POST">
+                <input type = "text" placeholder = "Search for a Book" name ="search" id = "bookSearch">
+                <button type="button" onclick= "getSearchBook()" >Submit</button>
+            </form>
+            <div class = "row" id = "row">
+
+            </div>
+            <button style="text-align: right;" onclick="nextPage()">NEXT</button>
+        </div>
+    </body>
+</html>

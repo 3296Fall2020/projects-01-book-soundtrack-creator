@@ -46,6 +46,7 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+
 class User(models.Model):
     email = models.CharField(verbose_name = "User Email", max_length = 255, blank = False)
     userId = models.CharField(verbose_name = "Spotify user id", max_length = 255, blank = False)

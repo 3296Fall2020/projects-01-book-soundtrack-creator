@@ -4,8 +4,6 @@ from .models import *
 import spotipy
 import spotipy.util as util
 from spotipy import oauth2
-
-from matplotlib import pyplot as plt
 # Create your views here.
 
 scope = 'user-library-read'
@@ -49,8 +47,11 @@ def set_user_info(request):
     user.save()
     return render(request, 'book_selector.html')
 
-def book_emotion_classifier(request, *args, **kwargs):
-    # book = Book.objects.create()
+
+# TODO create ebook reader
+
+def classify_emotion(book):
+     # book = Book.objects.create()
 
     # Extract the book text
     book = Book.objects.all().get(pk = kwargs["id"])
@@ -76,7 +77,13 @@ def book_emotion_classifier(request, *args, **kwargs):
     # book.bookEmotionGraph = graph
 
     book.save()
-
+    
+def book_info(request, *args, **kwargs):
+    # book = Book.objects.create()
+    # Extract the book text
+    book = Book.objects.all().get(pk = kwargs["id"])
+    if(book.bookEmotion == ""):
+        classify_emotion(book)
     return render(request, 'book_stats.html', {"book":book})
   
 def initial_sign_in(request):
@@ -110,3 +117,5 @@ def sign_in(request):
 
     return render(request, 'sign_in.html', {'results': tracks})
     
+def find_books(request):
+    return render(request, 'gutenindex.html')
