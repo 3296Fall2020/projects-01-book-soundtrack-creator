@@ -159,7 +159,8 @@ async function importBook(book){
     }else {
         console.log("failed")
     }
-    alert("Book added!");
+    window.location.href = "http://127.0.0.1:8000/book_info/"+id
+    console.log("didn't work?")
 }
 
 // The following function are copying from 

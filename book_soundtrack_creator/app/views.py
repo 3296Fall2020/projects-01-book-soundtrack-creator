@@ -4,6 +4,8 @@ from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
 import requests
 from .models import *
+from PIL import Image
+from io import BytesIO
 import spotipy
 import spotipy.util as util
 from spotipy import oauth2
@@ -32,6 +34,35 @@ def book_import(request):
     return render (request, 'book_import.html')
 
 @csrf_exempt
+def book_import_upload(request):
+    book = Book.objects.create()
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        # text = request.POST.get('text')
+        text = request.FILES['text']
+        # print(text)
+        book.title = title
+        book.author = author
+        book.bookText = text
+        book.bookID = findID()
+        book.save()
+    else:
+        form_error = "Submission failed"
+        response = JsonResponse({'form_error': form_error})
+        return  response  
+    form_error = "Submission successful"
+    response = JsonResponse({'form_error': form_error})
+    return  response      
+
+def findID():
+    newID = 65000
+    while(Book.objects.filter(bookID = newID).count() != 0):
+        newID += 1
+    print(newID)
+    return newID
+
+@csrf_exempt
 def book_upload(request):
     book = Book.objects.create()
     if request.method == 'POST':
@@ -39,7 +70,8 @@ def book_upload(request):
         title = request.POST.get('title')
         author = request.POST.get('author')
         textURL = request.POST.get('text')
-        print(id)
+        cover = request.POST.get('cover')
+        print(bookID)
         print(title)
         print(author)
         print(textURL)
@@ -47,39 +79,44 @@ def book_upload(request):
         book.bookID = bookID
         book.title = title
         book.author = author
+        print(cover)
+
+        img_data = requests.get(cover).content
+        f = open('media/coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg', 'wb')
+        f.write(img_data)
+        f.close()
+       
+        book.coverImage = 'coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg'
+       
         
         if('.zip' in textURL):
             print("CONTAINS ZIP")
             print(textURL)
             r = requests.get(textURL)
-            f = open('./books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
+            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
             f.write(r.content)
             f.close()
             r = requests.get(textURL)
-            zf = ZipFile('./books/'+author.replace(" ", "").replace(",","")+'.zip', 'r')
-            zf.extractall('./books')
+            zf = ZipFile('media/books/'+author.replace(" ", "").replace(",","")+'.zip', 'r')
+            zf.extractall('media/books/')
             zf.close()
-            filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "./books/").replace(".zip",".txt")
+            filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "media/books/").replace(".zip",".txt")
             print(filename)
             f = open(filename, "r")
             myfile = File(f)
             book.bookText = myfile
-            
-            
-
         else:
             r = requests.get(textURL)
-            f = open('./books/'+author.replace(" ", "").replace(",","")+'.txt', "wb")
+            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "wb")
             f.write(r.content)
             f.close()
-            f = open('./books/'+author.replace(" ", "").replace(",","")+'.txt', "r")
+            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "r")
             myfile = File(f)
-            book.bookText = myfile
-          
-    book.save()
-    book.bookEmotion = classify_emotion(book)
-    
-        
+            book.bookText = "books/"+author.replace(" ", "").replace(",","")+'.txt'
+      
+        book.save()
+        book.bookEmotion = classify_emotion(book)
+       
     form_error = "Submission successful"
     response = JsonResponse({'form_error': form_error})
     return  response 
@@ -122,10 +159,11 @@ def classify_emotion(book):
     book.bookEmotion = emotion
     book.save()
     
+    
 def book_info(request, *args, **kwargs):
     # book = Book.objects.create()
     # Extract the book text
-    book = Book.objects.all().get(pk = kwargs["id"])
+    book = Book.objects.filter(bookID = kwargs["id"])[0]
     if(book.bookEmotion == ""):
         classify_emotion(book)
     return render(request, 'book_stats.html', {"book":book})

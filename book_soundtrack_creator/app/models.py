@@ -9,7 +9,7 @@ class Book(models.Model):
     title = models.CharField(verbose_name = "Book Title", 
                                 max_length = 255, blank = False)
     author = models.CharField(verbose_name = "Author Name", max_length = 255, blank = True)
-    coverImage = models.ImageField(verbose_name = "Cover art", upload_to = 'static/img/book_art', blank = True)                               
+    coverImage = models.ImageField(verbose_name = "Cover art", upload_to = 'coverImages/', blank = True)                               
     wordCount = models.CharField(verbose_name = "Number of words", max_length = 255, blank = True)
     bookText = models.FileField(verbose_name = "Book text" , upload_to = 'books/')
     # TO-DO: Not sure what field this should be

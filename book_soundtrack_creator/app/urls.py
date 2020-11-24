@@ -12,6 +12,7 @@ urlpatterns = [
     path("initial_sign_in/", views.initial_sign_in , name="initial_sign_in"),
     path("sign_in/", views.sign_in, name="sign_in"),
     path("book_import/", views.book_import, name = "book_import"),
+    path("book_import_upload/", views.book_import_upload, name = "book_import_upload"),
     path("book_upload/", views.book_upload, name = "book_upload"),
     path("find_books/", views.find_books, name = "find books")
 ]

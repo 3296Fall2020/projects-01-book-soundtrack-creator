@@ -59,13 +59,11 @@
             <div class="row">
                 {% for book in books %}
                 <div class="col-sm-4">
-                    <div class = "book-card" class="card-body" onclick = "window.location.href = '/book_info/{{ book.id }}'">
+                    <div class = "book-card" class="card-body" onclick = "window.location.href = '/book_info/{{ book.bookID }}'">
                         <div class = "card-title"> <h3 style = "margin-bottom: 20px">{{book.title}}</h3></div>
                         <div class = "title">
-                            {% if book.title != "" %}
-                                <embed width="100%" src="{{book.title}}">
-                            {% elif book.image != "" %}
-                                <img src= "{{MEDIA_URL}}{{book.image}}" class="card-img-top" width="107.5%" height="200">    
+                            {% if book.coverImage != "" %}
+                                <img src= "{{book.coverImage.url}}" class="card-img-top">    
                             {% endif %}
                         </div>
                         <div class = "wordCount"> 

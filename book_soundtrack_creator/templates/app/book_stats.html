@@ -1,9 +1,16 @@
 {% include "navbar.html" %}
+
 <html lang = "en">
     {% load static %}
+    <head>
+        <link rel="stylesheet" href = "{%static '/css/mainNew.css' %}">
+    </head>
     <body>
         <h1>Book statistics</h1>
         <h1>Title: {{book.title}}</h1><br>
+        {% if book.coverImage != "" %}
+            <img src= "{{book.coverImage.url}}" class="card-img-top" width="10px" height="200px">    
+        {% endif %}
         <p>Word Count: {{book.wordCount}}</p><br>
         <p>Book text: (not showing this because I don't want to print the whole book)</p><br>
         <p>Book emotion: {{book.bookEmotion}}</p>
