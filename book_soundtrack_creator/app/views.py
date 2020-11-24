@@ -1,9 +1,14 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.http import HttpResponse, JsonResponse, Http404
+from django.core.files import File
+from django.views.decorators.csrf import csrf_exempt
+import requests
 from .models import *
 import spotipy
 import spotipy.util as util
 from spotipy import oauth2
+from zipfile import ZipFile
+
 # Create your views here.
 
 scope = 'user-library-read'
@@ -26,9 +31,58 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
+@csrf_exempt
 def book_upload(request):
+    book = Book.objects.create()
     if request.method == 'POST':
-        print("works")
+        bookID = request.POST.get('id')
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        textURL = request.POST.get('text')
+        print(id)
+        print(title)
+        print(author)
+        print(textURL)
+        
+        book.bookID = bookID
+        book.title = title
+        book.author = author
+        
+        if('.zip' in textURL):
+            print("CONTAINS ZIP")
+            print(textURL)
+            r = requests.get(textURL)
+            f = open('./books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
+            f.write(r.content)
+            f.close()
+            r = requests.get(textURL)
+            zf = ZipFile('./books/'+author.replace(" ", "").replace(",","")+'.zip', 'r')
+            zf.extractall('./books')
+            zf.close()
+            filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "./books/").replace(".zip",".txt")
+            print(filename)
+            f = open(filename, "r")
+            myfile = File(f)
+            book.bookText = myfile
+            
+            
+
+        else:
+            r = requests.get(textURL)
+            f = open('./books/'+author.replace(" ", "").replace(",","")+'.txt', "wb")
+            f.write(r.content)
+            f.close()
+            f = open('./books/'+author.replace(" ", "").replace(",","")+'.txt', "r")
+            myfile = File(f)
+            book.bookText = myfile
+          
+    book.save()
+    book.bookEmotion = classify_emotion(book)
+    
+        
+    form_error = "Submission successful"
+    response = JsonResponse({'form_error': form_error})
+    return  response 
 
 def set_user_info(request):
     response = ""
@@ -51,10 +105,11 @@ def set_user_info(request):
 # TODO create ebook reader
 
 def classify_emotion(book):
+    
      # book = Book.objects.create()
 
     # Extract the book text
-    book = Book.objects.all().get(pk = kwargs["id"])
+    # book = Book.objects.all().get(pk = kwargs["id"])
     bookText = book.bookText
     # print(bookText)
     bookText.open(mode='r')
@@ -65,17 +120,6 @@ def classify_emotion(book):
     emotion = Book.emotion_classifier(lines)  # Returns a dictionary of {emotion: value}
     # emotion = "test emotion"
     book.bookEmotion = emotion
-
-    # Create graph for current book
-    # keys = book.bookEmotion.keys()
-    # values = book.bookEmotion.values()
-    # graph = plt.figure()
-    # plt.bar(keys, values)
-    # plt.suptitle('Emotion Analysis of ' + str(book.title))
-    # plt.xticks(rotation='82.5')
-    # graph = plt.savefig('static/img/' + book.title.replace(' ', '_') + '_graph.png')
-    # book.bookEmotionGraph = graph
-
     book.save()
     
 def book_info(request, *args, **kwargs):
@@ -116,6 +160,7 @@ def sign_in(request):
             tracks.append(track)
 
     return render(request, 'sign_in.html', {'results': tracks})
-    
+
+
 def find_books(request):
     return render(request, 'gutenindex.html')

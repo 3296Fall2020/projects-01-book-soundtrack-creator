@@ -17,11 +17,15 @@ function loadPage(){
     for (var book in books){
         console.log("works")
         var bookDiv = document.createElement('div');
-        bookDiv.setAttribute('class', "col-sm-4 book");
+        bookDiv.setAttribute('class', "col-md-3 book");
         bookDiv.setAttribute('id', 'book'+book);
         bookDiv.setAttribute('name', books[book].id + '')
-        bookDiv.style.border = "2px solid black"
-        // bookDiv.style.margin = "10px"
+        bookDiv.style.border = "2px solid #44bcc9"
+        bookDiv.style.margin = "10px"
+        bookDiv.style.padding = "10px"
+        bookDiv.style.borderRadius = "5px"
+        
+        bookDiv.style.cursor = "pointer"
         bookDiv.setAttribute('onclick', 'bookLink('+books[book].id+')')
         document.getElementById("row").appendChild(bookDiv);
         
@@ -46,8 +50,8 @@ function loadPage(){
         var img = document.createElement('img');
         img.setAttribute('src', books[book].formats["image/jpeg"]);
         img.setAttribute('alt','Book Cover');
-        img.style.height = "100px"
-        img.style.width = "100px"
+        img.style.height = "200px"
+        img.style.width = "125px"
         document.getElementById('book'+book).appendChild(img);
 
         
@@ -59,23 +63,38 @@ function loadPage(){
 function bookLink(bookID){
     let bookUrl = "http://gutendex.com/books/"+bookID
     console.log(bookUrl)
-    getBook(bookUrl)
+    getBook(bookUrl, bookID)
 }
 
-function getBook(url){
-    fetch(url)
-        .then((reponse) => {
-            if(reponse.ok){
-                books = response.results
-                return reponse.json();
+function getBookTopic(){
+    url = "http://gutendex.com/books?topic="
+    bookSearch = document.getElementById("bookTopic").value
+    if(bookSearch == ""){
+        alert("Please enter something into the search bar")
+    }else{
+        // console.log(bookSearch)
+        book_tokens = bookSearch.split(" ")
+        for (var tok in book_tokens){
+            if(tok == 0){
+                url += book_tokens[tok]
             }else{
-                return Promise.reject('something went wrong!');
+                url += "%20"+book_tokens[tok]
             }
-        })
-        .then((myJson) => {
             
-            console.log(myJson);
-        })
+        }
+        loadBooks(url)
+    }
+
+}
+
+async function getBook(url){
+    let book;
+    console.log(url)
+    const resp =  await fetch(url);
+    respBook = await resp.json() ;
+    book = respBook
+    console.log(book)
+    importBook(book)
 }
 
 function nextPage(){
@@ -104,6 +123,63 @@ function getSearchBook(){
     }
     
 }
+
+async function importBook(book){
+    console.log(book)
+    var title = book.title
+    var id = book.id
+    var author = ""
+    if(book.authors != ""){
+        author = book.authors[0].name
+    }
+    var textUrl= book.formats['text/plain; charset=utf-8']
+    console.log(textUrl)
+    var cover = book.formats['image/jpeg']
+    console.log(cover)
+    const endpoint = "http://127.0.0.1:8000/book_upload/";
+    let csrftoken = getCookie('csrftoken');
+
+    var formData = new FormData();
+    formData.append('title',title)
+    formData.append('id',id)
+    formData.append('author',author)
+    formData.append('text',textUrl)
+    formData.append('cover',cover)
+
+    const resp = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+        headers:{ "X-CSRFToken": csrftoken },
+    });
+    response = await resp.json();
+    response = response.form_error
+    console.log("Response: "+response)
+    if(response == "Submission successful"){
+      console.log("reached")
+    }else {
+        console.log("failed")
+    }
+    alert("Book added!");
+}
+
+// The following function are copying from 
+// https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 async function importBooks(){
     alert("book sending")
     const myForm = document.getElementById("form")

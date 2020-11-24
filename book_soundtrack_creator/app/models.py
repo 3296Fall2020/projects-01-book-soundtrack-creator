@@ -5,9 +5,12 @@ from nrclex import NRCLex
 # Create your models here.
 
 class Book(models.Model): 
+    bookID = models.CharField(verbose_name = "id", max_length = 10, blank = False, default = -1)
     title = models.CharField(verbose_name = "Book Title", 
                                 max_length = 255, blank = False)
-    wordCount = models.CharField(verbose_name = "Number of words", max_length = 255, blank = False)
+    author = models.CharField(verbose_name = "Author Name", max_length = 255, blank = True)
+    coverImage = models.ImageField(verbose_name = "Cover art", upload_to = 'static/img/book_art', blank = True)                               
+    wordCount = models.CharField(verbose_name = "Number of words", max_length = 255, blank = True)
     bookText = models.FileField(verbose_name = "Book text" , upload_to = 'books/')
     # TO-DO: Not sure what field this should be
     bookEmotion = models.CharField(verbose_name = "Book Emotion", max_length = 255)
@@ -29,7 +32,7 @@ class Book(models.Model):
                     emotionDict['anticipation'] += float(emo[1])
                 else:
                     emotionDict[emo[0]] += float(emo[1])
-            print(text[i])
+            # print(text[i])
             
             # Return list of top emotions from text
             # return emotion.top_emotions
