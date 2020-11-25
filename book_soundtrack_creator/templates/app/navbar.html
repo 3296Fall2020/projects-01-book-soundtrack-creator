@@ -1,6 +1,58 @@
+<!DOCTYPE html>
 <html>
-    <a href="/">Home</a>
-    <a href="/book_emotion_classifier/1">Book stats</a>
-    <a href= "/book_selector">Book selector</a>
-    <a href="/login">login</a>
+    {% load static %}
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href = "{% static 'css/main.css' %}">
+        <link rel="stylesheet" href = "{% static 'css/navcss.css' %}">
+        <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+
+
+    <div class = "container-fluid fixed-top navbar-custom navbar-expand-lg" id = "navDiv">
+    <nav class="navbar navbar-expand-lg bg-transparent">
+        <a class="navbar-brand" href="/">
+        <img src="{% static 'img/logo.png' %}" alt="Company Logo" id="nav_logo"><span id = "brandText" style="font-size: 30px;">Book Sound-track Creator</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon" id = "menuCollapse">Menu</span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+            <a class="nav-link" href="/book_selector">Book Selector</a>
+            </li>
+
+            <li class="nav-item">
+            <a class="nav-link" href="/login"">Login</a>
+            </li>
+        
+            <li class="nav-item">
+            <a class="nav-link" href="/find_books">Find Books!</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/admin">Admin</a>
+            </li>
+        </ul>
+        </div>
+    </nav>
+
+    </div>
+
+    </body>
 </html>

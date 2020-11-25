@@ -57,30 +57,34 @@
             </a><br>
             <!--This row and column system will house the books being read in by Django-->
             <div class="row">
-                {% for book in Book %}
+                {% for book in books %}
                 <div class="col-sm-4">
-                    <div class = "book-card" class="card-body" onclick = "window.location.href = '/book_selector/{{ book.key }}'">
+                    <div class = "book-card" class="card-body" onclick = "window.location.href = '/book_info/{{ book.bookID }}'">
                         <div class = "card-title"> <h3 style = "margin-bottom: 20px">{{book.title}}</h3></div>
                         <div class = "title">
-                            {% if book.title != "" %}
-                                <embed width="100%" src="{{book.title}}">
-                            {% elif book.image != "" %}
-                                <img src= "{{MEDIA_URL}}{{book.image}}" class="card-img-top" width="107.5%" height="200">    
+                            {% if book.coverImage != "" %}
+                                <img src= "{{book.coverImage.url}}" class="card-img-top">    
                             {% endif %}
                         </div>
-                        <div class = "wordCount"> {{book.wordCount}}
+                        <div class = "wordCount"> 
                             {% if book.wordCount == "" %}
                                 <p>Word count not available</p>
+                            {% else %}
+                                <p>Word Count: {{book.wordCount}}</p>
                             {% endif %}
                         </div>
-                        <div class = "bookText"> {{book.bookText}}
+                        <div class = "bookText">
                             {% if book.bookText == "" %}
                                 <p>Book text not available</p>
+                            {%else%}
+                                <p>{{book.bookText}}</p>
                             {% endif %}
                         </div>
-                        <div class = "desc"> {{ book.emotion }}
+                        <div class = "desc"> 
                             {% if book.emotion == "" %}
                                 <p>Book emotion not available</p>
+                            {% else %}
+                                <p>Book emotion: {{ book.bookEmotion }}</p>
                             {% endif %}
                         </div>
                     </div>

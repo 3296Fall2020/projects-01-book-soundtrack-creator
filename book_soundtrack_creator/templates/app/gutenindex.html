@@ -1,0 +1,44 @@
+{% include "navbar.html" %}
+{% load static %}
+<html>
+    <body style="margin: 5%;">
+
+        <head>
+            <script src = "{%static '/js/gutenindex.js' %}"></script>
+            <style>
+                html{
+                    background-color:#020826;  
+                }
+                body{
+                    background-color:#020826;   
+                    color: white;
+                }
+                .grid-container{
+                    background-color:#020826;  
+                    color: white;
+                }
+            </style>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        </head>
+        <h1 style="text-align: center;">Gutenberg books</h1>
+        <form align = "center" method="POST">
+            <input type = "text" placeholder = "Search for a Book Title or Author" name ="search" id = "bookSearch">
+            <button type="button" onclick= "getSearchBook()" >Submit</button>
+        </form>
+        <br>
+        <form align = "center" method="POST">
+            <input type = "text" placeholder = "Search for a Book Topic" name ="search" id = "bookTopic">
+            <button type="button" onclick= "getBookTopic()" >Submit</button>
+        </form>
+        <br>
+        <b><h3 style="text-align: center;">Click on a book to download it to your profile!</h3></b>
+        <button onclick="nextPage()" >NEXT</button>
+        
+        <div class="grid-container d-flex justify-content-between" id = "container">
+            <div class = "row justify-content-center"  id = "row">
+
+            </div>
+            
+        </div>
+    </body>
+</html>

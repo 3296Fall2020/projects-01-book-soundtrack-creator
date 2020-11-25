@@ -23,8 +23,12 @@
             </a><br> -->
             <h1>Import Book</h1><hr><br>
             <form onsubmit="event.preventDefault(); importBook();" id = "form">
+                <label for = "title">Title: </label>
+                <input type="text" id ="title"><br><br>
+                <label for = "title">Author: </label>
+                <input type="text" id ="author"><br><br>
                 <label for = "file">File input: </label>
-                <input type="file" accept="bf" id ="file"><br><br>
+                <input type="file" accept="txt" id ="file"><br><br>
                 <button type = "submit">Import book</button>
             </form>
         </div>
