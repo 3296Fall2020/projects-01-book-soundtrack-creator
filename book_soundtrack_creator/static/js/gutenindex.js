@@ -14,6 +14,10 @@ loadBooks(url)
 
 function loadPage(){
     document.getElementById("row").innerHTML = ""
+    if(books.length == 0){
+        document.getElementById("emptySearch").innerHTML = "No Books Found."
+        
+    }
     for (var book in books){
         console.log("works")
         var bookDiv = document.createElement('div');
@@ -63,7 +67,7 @@ function loadPage(){
 function bookLink(bookID){
     let bookUrl = "http://gutendex.com/books/"+bookID
     console.log(bookUrl)
-    getBook(bookUrl, bookID)
+    getBook(bookUrl)
 }
 
 function getBookTopic(){
@@ -94,6 +98,7 @@ async function getBook(url){
     respBook = await resp.json() ;
     book = respBook
     console.log(book)
+
     importBook(book)
 }
 
@@ -132,7 +137,26 @@ async function importBook(book){
     if(book.authors != ""){
         author = book.authors[0].name
     }
-    var textUrl= book.formats['text/plain; charset=utf-8']
+    console.log(book.formats)
+    var textUrl;
+    // checks for a url that is either 'text/plain; charset=utf-8' or is a txt file
+    var finalForm = ""
+    for(var form in book.formats){
+        console.log("form" + form)
+        if(form == 'text/plain; charset=us-ascii'){
+            console.log("good")
+            textUrl = book.formats['text/plain; charset=us-ascii']
+            finalForm = form
+            break;
+        }else if(book.formats[form].includes('.txt') ){ //&& !form.includes('utf-8')
+            textUrl = book.formats[form]
+            finalForm = form
+        }else if(form.includes('text/plain') && (book.formats[form].includes('.zip'))){
+            textUrl = book.formats[form]
+            finalForm = form
+        }
+    }
+    console.log("Final file format: " + finalForm) // prints out the final chosen file format
     console.log(textUrl)
     var cover = book.formats['image/jpeg']
     console.log(cover)
@@ -152,14 +176,14 @@ async function importBook(book){
         headers:{ "X-CSRFToken": csrftoken },
     });
     response = await resp.json();
-    response = response.form_error
-    console.log("Response: "+response)
-    if(response == "Submission successful"){
+    responseMsg = response.form_error
+    console.log("Response: "+responseMsg)
+    if(responseMsg == "Submission successful"){
       console.log("reached")
     }else {
-        console.log("failed")
+        alert(responseMsg)
     }
-    window.location.href = "http://127.0.0.1:8000/book_info/"+id
+    // window.location.href = "http://127.0.0.1:8000/book_info/"+id
     console.log("didn't work?")
 }
 

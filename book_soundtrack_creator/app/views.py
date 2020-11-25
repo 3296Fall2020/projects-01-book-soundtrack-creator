@@ -35,23 +35,33 @@ def book_import(request):
 
 @csrf_exempt
 def book_import_upload(request):
-    book = Book.objects.create()
+    form_error = "Submission successful"
     if request.method == 'POST':
         title = request.POST.get('title')
         author = request.POST.get('author')
         # text = request.POST.get('text')
         text = request.FILES['text']
         # print(text)
-        book.title = title
-        book.author = author
-        book.bookText = text
-        book.bookID = findID()
-        book.save()
+        
+        checkBook = Book.objects.filter(title = title)
+        
+        if(checkBook.count() != 0):
+            print("Book Already Exists")
+            form_error = "Book Already Exists"
+        else:
+            # book.bookEmotion = classify_emotion(book)
+            book = Book.objects.create()
+            book.title = title
+            book.author = author
+            book.bookText = text
+            book.bookID = findID()
+            book.save()
+        
+        
     else:
         form_error = "Submission failed"
         response = JsonResponse({'form_error': form_error})
         return  response  
-    form_error = "Submission successful"
     response = JsonResponse({'form_error': form_error})
     return  response      
 
@@ -64,7 +74,6 @@ def findID():
 
 @csrf_exempt
 def book_upload(request):
-    book = Book.objects.create()
     if request.method == 'POST':
         bookID = request.POST.get('id')
         title = request.POST.get('title')
@@ -75,47 +84,54 @@ def book_upload(request):
         print(title)
         print(author)
         print(textURL)
-        
-        book.bookID = bookID
-        book.title = title
-        book.author = author
-        print(cover)
+        checkBook = Book.objects.filter(title = title)
+        if(checkBook.count() != 0):
+            print("book already exists")
+            form_error = "Book Already Exists"
+            response = JsonResponse({'form_error': form_error})
+            return  response 
+        else: 
+            book = Book.objects.create()
+            book.bookID = bookID
+            book.title = title
+            book.author = author
+            print(cover)
 
-        img_data = requests.get(cover).content
-        f = open('media/coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg', 'wb')
-        f.write(img_data)
-        f.close()
-       
-        book.coverImage = 'coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg'
-       
+            img_data = requests.get(cover).content
+            f = open('media/coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg', 'wb')
+            f.write(img_data)
+            f.close()
         
-        if('.zip' in textURL):
-            print("CONTAINS ZIP")
-            print(textURL)
-            r = requests.get(textURL)
-            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
-            f.write(r.content)
-            f.close()
-            r = requests.get(textURL)
-            zf = ZipFile('media/books/'+author.replace(" ", "").replace(",","")+'.zip', 'r')
-            zf.extractall('media/books/')
-            zf.close()
-            filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "media/books/").replace(".zip",".txt")
-            print(filename)
-            f = open(filename, "r")
-            myfile = File(f)
-            book.bookText = myfile
-        else:
-            r = requests.get(textURL)
-            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "wb")
-            f.write(r.content)
-            f.close()
-            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "r")
-            myfile = File(f)
-            book.bookText = "books/"+author.replace(" ", "").replace(",","")+'.txt'
-      
-        book.save()
-        book.bookEmotion = classify_emotion(book)
+            book.coverImage = 'coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg'
+        
+            
+            if('.zip' in textURL):
+                print("CONTAINS ZIP")
+                print(textURL)
+                r = requests.get(textURL)
+                f = open('media/books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
+                f.write(r.content)
+                f.close()
+                r = requests.get(textURL)
+                zf = ZipFile('media/books/'+author.replace(" ", "").replace(",","")+'.zip', 'r')
+                zf.extractall('media/books/')
+                zf.close()
+                filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "media/books/").replace(".zip",".txt")
+                print(filename)
+                f = open(filename, "r")
+                myfile = File(f)
+                book.bookText = myfile
+            else:
+                r = requests.get(textURL)
+                f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "wb")
+                f.write(r.content)
+                f.close()
+                f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "r")
+                myfile = File(f)
+                book.bookText = "books/"+author.replace(" ", "").replace(",","")+'.txt'
+            # book.bookEmotion = classify_emotion(book)
+            book.save()
+        
        
     form_error = "Submission successful"
     response = JsonResponse({'form_error': form_error})
