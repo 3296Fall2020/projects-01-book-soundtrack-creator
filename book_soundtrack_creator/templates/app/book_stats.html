@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>Book statistics</h1>
-        <h1>Title: {{book.title}}</h1><br>
+        <h1>Title: {{book.title}} <a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank">Read book here!</a></h1><br>
         {% if book.coverImage != "" %}
             <img src= "{{book.coverImage.url}}" class="card-img-top" width="10px" height="200px">    
         {% endif %}

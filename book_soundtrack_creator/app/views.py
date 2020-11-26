@@ -10,6 +10,7 @@ import spotipy
 import spotipy.util as util
 from spotipy import oauth2
 from zipfile import ZipFile
+from bs4 import BeautifulSoup
 
 # Create your views here.
 
@@ -20,8 +21,106 @@ SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
 username = ''
 
 def index(request):
-    return render(request, 'home.html')
+    count = 1
+    requests_response = requests.get("http://gutendex.com/books?page="+str(count))
+    # requests_resp = requests.get("http://gutendex.com/books?page="+str(count))
+    # print('next' in requests_response.json())
+    # book_dets = set()
 
+    # while(count < 1998):
+    #     print("working")
+    #     books = requests_response.json()['results']
+    #     # print(books)
+    #     for book in books:
+    #         # print("book"+book)
+    #         if('title' in book):
+    #             book_dets.add(book['title'])
+    #             # print(book['title'])
+    #         if(len(book['authors']) > 0):
+    #             author = book['authors'][0]['name']
+    #             if("," in author):
+    #                 x = author.split(", ")
+    #                 author = x[1] + " " + x[0]
+    #                 book_dets.add(author)
+    #                 # print(author)
+    #     count += 1 
+    #     if(count % 100):
+    #         print(count/1998)
+    #         # print(authors)
+    #     requests_response = requests.get("http://gutendex.com/books?page="+str(count))
+    # print(book_dets)
+    # r = requests.get("http://gutendex.com/books/"+str(count)).json()
+    # authors = set()
+    # print('id' in r)
+    # while(count < 67000):
+        
+    #     if(len(r['authors']) > 0):
+    #         # for a in r['authors']  :
+    #         print(r['authors'][0]['name'] + " " +str(count))    
+    #         authors.add(r['authors'][0]['name'])
+    #     count +=1
+    #     r = requests.get("http://gutendex.com/books/"+str(count)).json()
+    #     if(count % 100 == 0):
+    #         print(str(count/65000) + "%")
+    #     while(not('authors' in r)):
+    #         print("missing response! " + str(count))
+    #         count += 1
+    #         r = requests.get("http://gutendex.com/books/"+str(count)).json()
+
+    # print(authors)
+    # while(requests.get("https://www.gutenberg.org/books/"+count)
+    #     requests_response = requests.get("https://www.gutenberg.org/browse/authors/a")
+    # print(requests_response)
+    # soup = BeautifulSoup(requests_response.text, 'html.parser')
+    # bookshelf = soup.find_all('li')
+    # print("hellooooo" ,bookshelf)
+    # print(soup.h2)
+    django_response = HttpResponse(
+        content=requests_resp.content,
+        status=requests_resp.status_code,
+        content_type=requests_resp.headers['Content-Type']
+    )
+    print(django_response)
+    return django_response
+
+def test(request):
+    count = 1
+    requests_response = requests.get("http://gutendex.com/books/")
+    r = requests.get("http://gutendex.com/books/"+str(count)).json()
+    authors = set()
+    print('id' in r)
+    # while(count < 67000):
+        
+    #     if(len(r['authors']) > 0):
+    #         # for a in r['authors']  :
+    #         print(r['authors'][0]['name'] + " " +str(count))    
+    #         authors.add(r['authors'][0]['name'])
+    #     count +=1
+    #     r = requests.get("http://gutendex.com/books/"+str(count)).json()
+    #     if(count % 100 == 0):
+    #         print(str(count/65000) + "%")
+    #     while(not('authors' in r)):
+    #         print("missing response! " + str(count))
+    #         count += 1
+    #         r = requests.get("http://gutendex.com/books/"+str(count)).json()
+
+    # print(authors)
+    # while(requests.get("https://www.gutenberg.org/books/"+count)
+    #     requests_response = requests.get("https://www.gutenberg.org/browse/authors/a")
+    # print(requests_response)
+    # soup = BeautifulSoup(requests_response.text, 'html.parser')
+    # bookshelf = soup.find_all('li')
+    # print("hellooooo" ,bookshelf)
+    # print(soup.h2)
+    django_response = HttpResponse(
+        content=requests_response.content,
+        status=requests_response.status_code,
+        content_type=requests_response.headers['Content-Type']
+    )
+    print(django_response)
+    return django_response
+    
+    
 def login(request):
     return render(request, 'login.html')
     
@@ -33,25 +132,43 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
+def get_book(request):
+    if request.method == 'GET':
+        print("works")
+    form_error = "Submission worked"
+    response = JsonResponse({'form_error': form_error})
+    return  response  
+
+
 @csrf_exempt
 def book_import_upload(request):
-    book = Book.objects.create()
+    form_error = "Submission successful"
     if request.method == 'POST':
         title = request.POST.get('title')
         author = request.POST.get('author')
         # text = request.POST.get('text')
         text = request.FILES['text']
         # print(text)
-        book.title = title
-        book.author = author
-        book.bookText = text
-        book.bookID = findID()
-        book.save()
+        
+        checkBook = Book.objects.filter(title = title)
+        
+        if(checkBook.count() != 0):
+            print("Book Already Exists")
+            form_error = "Book Already Exists"
+        else:
+            # book.bookEmotion = classify_emotion(book)
+            book = Book.objects.create()
+            book.title = title
+            book.author = author
+            book.bookText = text
+            book.bookID = findID()
+            book.save()
+        
+        
     else:
         form_error = "Submission failed"
         response = JsonResponse({'form_error': form_error})
         return  response  
-    form_error = "Submission successful"
     response = JsonResponse({'form_error': form_error})
     return  response      
 
@@ -64,7 +181,6 @@ def findID():
 
 @csrf_exempt
 def book_upload(request):
-    book = Book.objects.create()
     if request.method == 'POST':
         bookID = request.POST.get('id')
         title = request.POST.get('title')
@@ -75,47 +191,54 @@ def book_upload(request):
         print(title)
         print(author)
         print(textURL)
-        
-        book.bookID = bookID
-        book.title = title
-        book.author = author
-        print(cover)
+        checkBook = Book.objects.filter(title = title)
+        if(checkBook.count() != 0):
+            print("book already exists")
+            form_error = "Book Already Exists"
+            response = JsonResponse({'form_error': form_error})
+            return  response 
+        else: 
+            book = Book.objects.create()
+            book.bookID = bookID
+            book.title = title
+            book.author = author
+            print(cover)
 
-        img_data = requests.get(cover).content
-        f = open('media/coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg', 'wb')
-        f.write(img_data)
-        f.close()
-       
-        book.coverImage = 'coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg'
-       
+            img_data = requests.get(cover).content
+            f = open('media/coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg', 'wb')
+            f.write(img_data)
+            f.close()
         
-        if('.zip' in textURL):
-            print("CONTAINS ZIP")
-            print(textURL)
-            r = requests.get(textURL)
-            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
-            f.write(r.content)
-            f.close()
-            r = requests.get(textURL)
-            zf = ZipFile('media/books/'+author.replace(" ", "").replace(",","")+'.zip', 'r')
-            zf.extractall('media/books/')
-            zf.close()
-            filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "media/books/").replace(".zip",".txt")
-            print(filename)
-            f = open(filename, "r")
-            myfile = File(f)
-            book.bookText = myfile
-        else:
-            r = requests.get(textURL)
-            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "wb")
-            f.write(r.content)
-            f.close()
-            f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "r")
-            myfile = File(f)
-            book.bookText = "books/"+author.replace(" ", "").replace(",","")+'.txt'
-      
-        book.save()
-        book.bookEmotion = classify_emotion(book)
+            book.coverImage = 'coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg'
+        
+            
+            if('.zip' in textURL):
+                print("CONTAINS ZIP")
+                print(textURL)
+                r = requests.get(textURL)
+                f = open('media/books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
+                f.write(r.content)
+                f.close()
+                r = requests.get(textURL)
+                zf = ZipFile('media/books/'+author.replace(" ", "").replace(",","")+'.zip', 'r')
+                zf.extractall('media/books/')
+                zf.close()
+                filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "media/books/").replace(".zip",".txt")
+                print(filename)
+                f = open(filename, "r")
+                myfile = File(f)
+                book.bookText = myfile
+            else:
+                r = requests.get(textURL)
+                f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "wb")
+                f.write(r.content)
+                f.close()
+                f = open('media/books/'+author.replace(" ", "").replace(",","")+'.txt', "r")
+                myfile = File(f)
+                book.bookText = "books/"+author.replace(" ", "").replace(",","")+'.txt'
+            # book.bookEmotion = classify_emotion(book)
+            book.save()
+        
        
     form_error = "Submission successful"
     response = JsonResponse({'form_error': form_error})
@@ -185,7 +308,7 @@ def sign_in(request):
     total = []
     results = sp.current_user_saved_tracks(limit=50)
     next = next_offset(results)
-
+    
     total.append(results)
     while next and next < int(results['total']):
         next_50 = sp.current_user_saved_tracks(limit=50, offset=next)
