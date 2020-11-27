@@ -12,16 +12,13 @@
 .nav-link{
 	color: white;
 	border-radius: 5px;
-	transition: all 1s ease;
+	
 }
 
 .nav-link:hover {
 	color: white;
 	background-color: #44bcc9;
-	-webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    -o-transition: all .5s ease;
-    -ms-transform: all .5s ease;
+
 }
 
 #menuCollapse {
@@ -40,7 +37,7 @@
 
 .navbar-brand {
 	color: white;
-	transition: all 1s ease;
+	
 }
 
 @media (max-width: 1250px) { 
@@ -61,10 +58,7 @@
 
 .navbar-brand:hover {
 	color: #44bcc9;
-	-webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    -o-transition: all .5s ease;
-    -ms-transform: all .5s ease;
+	
 }
 
 .navBarColor {
