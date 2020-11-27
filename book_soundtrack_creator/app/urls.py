@@ -16,4 +16,5 @@ urlpatterns = [
     path("book_upload/", views.book_upload, name = "book_upload"),
     path("find_books/", views.find_books, name = "find books"),
     path("test/", views.test, name = "testing"),
+    path("get_book/<id>", views.get_book, name = "get book"),
 ]

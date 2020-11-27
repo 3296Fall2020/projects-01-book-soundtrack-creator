@@ -12,6 +12,8 @@ from spotipy import oauth2
 from zipfile import ZipFile
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import json
+import re
 # Create your views here.
 
 scope = 'user-library-read'
@@ -72,11 +74,27 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
-def get_book(request):
-    if request.method == 'GET':
-        print("works")
-    form_error = "Submission worked"
-    response = JsonResponse({'form_error': form_error})
+def get_book(request, *args, **kwargs):
+    book = Book.objects.filter(bookID = kwargs["id"])[0]
+    emotionDict = book.bookEmotion
+    pattern = r'[{}]'
+    # Remove unwanted characters from emotionDict
+    emotionDict = re.sub(pattern, '', emotionDict)
+    
+    # emotionDict = emotionDict.replace("{","").replace("}","")
+    emotionDictStr = emotionDict.split(",")
+    emotionDict = {'anticipation': 0.0, 'fear': 0.0, 'anger': 0.0, 'trust': 0.0, 'surprise': 0.0, 'positive': 0.0, 'negative': 0.0, 'sadness': 0.0, 'disgust': 0.0, 'joy': 0.0}
+    for emo in emotionDictStr:
+        emo = emo.split(":")
+        emo[0] = emo[0].replace("'","").replace(" ","")
+        print(emo)
+        emotionDict[emo[0]] = float(emo[1])
+    print(emotionDict.keys())
+    
+    # emotionDict = {}
+    # if request.method == 'GET':
+        
+    response = JsonResponse({'emotionDict':emotionDict})
     return  response  
 
 
