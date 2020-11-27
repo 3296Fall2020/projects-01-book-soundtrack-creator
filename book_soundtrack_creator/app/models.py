@@ -15,7 +15,6 @@ class Book(models.Model):
     # TO-DO: Not sure what field this should be
     bookEmotion = models.CharField(verbose_name = "Book Emotion", max_length = 255)
     bookEmotionGraph = models.ImageField(verbose_name="Book Bar Graph", upload_to='static/img', default='bookgraphs/blank.png')
-
     @classmethod
     # Create emotion classifier method for Book class
     def emotion_classifier(self, text):
