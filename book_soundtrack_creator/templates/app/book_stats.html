@@ -4,6 +4,7 @@
     {% load static %}
     <head>
         <link rel="stylesheet" href = "{%static '/css/mainNew.css' %}">
+        
     </head>
     <body>
         <h1>Book statistics</h1>
@@ -13,7 +14,8 @@
         {% endif %}
         <p>Word Count: {{book.wordCount}}</p><br>
         <p>Book text: (not showing this because I don't want to print the whole book)</p><br>
-        <p>Book emotion: {{book.bookEmotion}}</p>
-        <img src = "static/img/test_book_graph.png">
+        <canvas id="chart" width="400" height="400"></canvas>
     </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+    <script src = "{%static '/js/book_stats.js' %}"></script>
 </html>
