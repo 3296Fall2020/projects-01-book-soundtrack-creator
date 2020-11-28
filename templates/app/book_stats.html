@@ -1,0 +1,21 @@
+{% include "navbar.html" %}
+
+<html lang = "en">
+    {% load static %}
+    <head>
+        <link rel="stylesheet" href = "{%static '/css/mainNew.css' %}">
+        
+    </head>
+    <body>
+        <h1>Book statistics</h1>
+        <h1>Title: {{book.title}} <a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank">Read book here!</a></h1><br>
+        {% if book.coverImage != "" %}
+            <img src= "{{book.coverImage.url}}" class="card-img-top" width="10px" height="200px">    
+        {% endif %}
+        <p>Word Count: {{book.wordCount}}</p><br>
+        <p>Book text: (not showing this because I don't want to print the whole book)</p><br>
+        <canvas id="chart" width="400" height="400"></canvas>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+    <script src = "{%static '/js/book_stats.js' %}"></script>
+</html>
