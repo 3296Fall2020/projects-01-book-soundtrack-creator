@@ -17,8 +17,8 @@ import re
 # Create your views here.
 
 scope = 'user-library-read'
-SPOTIPY_CLIENT_ID = ''
-SPOTIPY_CLIENT_SECRET = ''
+SPOTIPY_CLIENT_ID = '1d19391e82ac405fb02f35ebf74cc767'
+SPOTIPY_CLIENT_SECRET = '156400e3d8834a8395aaf95d420bb215'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
 username = ''
 
@@ -264,23 +264,25 @@ def sign_in(request):
         auth_url = sp_oauth.get_authorize_url()
         return HttpResponseRedirect(auth_url)
     sp = spotipy.Spotify(auth=token_info['access_token'])
-    total = []
-    results = sp.current_user_saved_tracks(limit=50)
-    next = next_offset(results)
+    # total = []
+    # results = sp.current_user_saved_tracks(limit=50)
+    # next = next_offset(results)
     
-    total.append(results)
-    while next and next < int(results['total']):
-        next_50 = sp.current_user_saved_tracks(limit=50, offset=next)
-        next = next_offset(next_50)
-        total.append(next_50)
-        print(next)
-    tracks = []
-    for r in total:
-        for track in r['items']:
-            tracks.append(track)
+    # total.append(results)
+    # while next and next < int(results['total']):
+    #     next_50 = sp.current_user_saved_tracks(limit=50, offset=next)
+    #     next = next_offset(next_50)
+    #     total.append(next_50)
+    #     print(next)
+    # tracks = []
+    # for r in total:
+    #     for track in r['items']:
+    #         tracks.append(track)
+    results = sp.current_user()
+    return render(request, 'sign_in.html')
 
-    return render(request, 'sign_in.html', {'results': tracks})
 
+    
 
 def find_books(request):
     return render(request, 'find_books.html')
