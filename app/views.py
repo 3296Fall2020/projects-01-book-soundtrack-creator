@@ -441,7 +441,18 @@ def aggregate_top_artists(sp):
                 top_artists_uri.append(artist_data['uri'])
     return top_artists_uri
 
-
+def aggregate_top_tracks(sp, top_artists_uri):
+    print("...getting top tracks")
+    top_tracks_name = []
+    top_tracks_uri = []
+    for artist in top_artists_uri:
+         top_tracks_all_data = sp.artist_top_tracks(artist)
+         top_tracks_data = top_tracks_all_data['tracks']
+         for track_data in top_tracks_data:
+             top_tracks_name.append(track_data['name'])
+             top_tracks_uri.append(track_data['uri'])
+    
+    return top_tracks_uri
   
 def initial_sign_in(request):
     return render(request, 'initial_sign_in.html')
