@@ -155,17 +155,8 @@ def logout(request):
     """
     # Dispatch the signal before the user is logged out so the receivers have a
     # chance to find out *who* logged out.
-    user = getattr(request, 'tokens', None)
-    if hasattr(user, 'is_authenticated') and not user.is_authenticated():
-        user = None
-    user_logged_out.send(sender=user.__class__, request=request, user=user)
-
-    request.session.flush()
-    if hasattr(request, 'tokens'):
-        from django.contrib.auth.models import AnonymousUser
-        request.user = AnonymousUser()
-    for key in request.session.keys():
-        del request.session[key]
+    del request.session['auth_code']
+    del request.session['tokens']
     return HttpResponseRedirect('/profile')
 
 def book_selector(request):
