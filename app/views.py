@@ -9,11 +9,21 @@ from io import BytesIO
 import spotipy
 import spotipy.util as util
 from spotipy import oauth2
+from spotipy.oauth2 import SpotifyOAuth
+from spotipy.util import prompt_for_user_token
 from zipfile import ZipFile
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import json
 import re
+import os
+# generate random integer values
+from random import seed
+from random import randint
+# seed random number generator
+seed(1)
+
+
 # Create your views here.
 
 scope = 'user-library-read'
@@ -21,13 +31,23 @@ SPOTIPY_CLIENT_ID = '1d19391e82ac405fb02f35ebf74cc767'
 SPOTIPY_CLIENT_SECRET = '156400e3d8834a8395aaf95d420bb215'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
 username = ''
+CACHE = '.spotipyoauthcache'
 
 def index(request):
-    return render(request, 'home.html')
+    try:
+        user = request.session['user']
+    except:
+        request.session['user'] = randint(0, 100)
+        user = request.session['user']
+    return render(request, 'home.html',{'user':user})
 
 def test(request):
     count = 1
     requests_response = requests.get("http://127.0.0.1:8000/find_books/")
+    try:
+        user = request.session['user']
+    except:
+        request.session['user'] = randint(0, 100)
     # print(requests_response.content)
     # r = requests.get("http://gutendex.com/books/"+str(count)).json()
     # authors = set()
@@ -66,8 +86,59 @@ def test(request):
     
 def login(request):
     return render(request, 'login.html')
+
+def profile(request):
+    try:
+        auth_code = request.session['auth_code']
+    except:
+        return HttpResponseRedirect("/login")
+    print(auth_code)
+    url = "https://accounts.spotify.com/api/token"
+    data = {
+        'grant_type': 'authorization_code',
+        'code': auth_code,
+        'redirect_uri': SPOTIPY_REDIRECT_URI,
+    }
+
+    res = requests.post(url, auth=(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET), data = data)
+    res_data = res.json()
+    print(res_data)
+    sp = spotipy.Spotify()
+    print(sp)
+    # total = []
+    # results = sp.current_user_saved_tracks(limit=50)
+    # print(results)
+    # next = next_offset(results)
     
+    # total.append(results)
+    # while next and next < int(results['total']):
+    #     next_50 = sp.current_user_saved_tracks(limit=50, offset=next)
+    #     next = next_offset(next_50)
+    #     total.append(next_50)
+    #     print(next)
+    # tracks = []
+    # for r in total:
+    #     for track in r['items']:
+    #         tracks.append(track)
+    return render(request, 'profile.html')
+
 def book_selector(request):
+    # request.session.flush()
+    print("request", request.GET)
+    try:
+        auth_code = request.session['auth_code']
+        print("authcode 1: ", auth_code)
+        # if(auth_code is None):
+        #     return HttpResponseRedirect("/sign_in")
+    except:
+        if(request.GET.get('code') is None):
+            # request.session['auth_code'] = 0
+            # auth_code = request.session['auth_code']
+            return HttpResponseRedirect("/login")
+        else:    
+            request.session['auth_code'] =  request.GET.get('code')
+            auth_code = request.session['auth_code']
+        print("authcode 2: ", auth_code)
     books = Book.objects.all()
     return render(request, 'book_selector.html', {'books' : books})
    
@@ -254,16 +325,25 @@ def initial_sign_in(request):
     return render(request, 'initial_sign_in.html')
 
 def sign_in(request):
-
-    # token = util.prompt_for_user_token(username, scope)
-    # print(token)
+    # try:
+    #     token = prompt_for_user_token('ty_pow', None, SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI)
+    # except:
+    #     os.remove(f".cache-{username}")
+    #     token = prompt_for_user_token('ty_pow', None, SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI)
     sp_oauth = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI,
-                                   scope=scope, cache_path=".cache-" + username)
+                                   scope=scope, username = username)
+    # # token = util.prompt_for_user_token(username, scope, SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI)
+    # # token = util.prompt_for_user_token('ty_pow', scope)
+    # # print(token)
+    # # token = prompt_for_user_token('ty_pow', None, SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI)
     token_info = sp_oauth.get_cached_token()
+    print(token_info)
     if not token_info:
         auth_url = sp_oauth.get_authorize_url()
+        print(auth_url)
         return HttpResponseRedirect(auth_url)
-    sp = spotipy.Spotify(auth=token_info['access_token'])
+    # sp = spotipy.Spotify(auth=token_info['access_token'])
+
     # total = []
     # results = sp.current_user_saved_tracks(limit=50)
     # next = next_offset(results)
