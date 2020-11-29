@@ -108,6 +108,8 @@ def refresh(request):
 
     return json.dumps(request.session['tokens'])
 
+
+
 def profile(request):
     # user is logged in
     try:
@@ -127,7 +129,11 @@ def profile(request):
         sp = spotipy.Spotify(tokens['access_token'])
         sp.current_user()
     
-    img_url = sp.current_user()['images'][0]['url']
+    try:
+        img_url = sp.current_user()['images'][0]['url']
+    except:
+        img_url =  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+
     print(img_url)
     # total = []
     # results = sp.current_user_saved_tracks(limit=50)
@@ -155,8 +161,18 @@ def logout(request):
     """
     # Dispatch the signal before the user is logged out so the receivers have a
     # chance to find out *who* logged out.
+    
     del request.session['auth_code']
     del request.session['tokens']
+    keys = []
+    for key in request.session.keys():
+        
+        keys.append(key)
+    for key in keys:
+        del request.session[key]
+    if(len(request.session.keys()) == 0):
+        print("All session keys deleted")
+        print("User logged out")
     return HttpResponseRedirect('/profile')
 
 def book_selector(request):
@@ -165,8 +181,7 @@ def book_selector(request):
     try:
         auth_code = request.session['auth_code']
         tokens = request.session['tokens']
-        print("authcode 1: ", auth_code)
-        
+        print("authcode 1: ", auth_code)      
         # if(auth_code is None):
         #     return HttpResponseRedirect("/sign_in")
     except:
@@ -204,6 +219,7 @@ def book_selector(request):
         print("authcode 2: ", auth_code)
     print(request.session['tokens'])
     books = Book.objects.all()
+    books = books.order_by('bookRank').reverse()
     return render(request, 'book_selector.html', {'books' : books})
    
    
@@ -266,6 +282,45 @@ def book_import_upload(request):
         return  response  
     response = JsonResponse({'form_error': form_error})
     return  response      
+
+@csrf_exempt
+def rank(request):
+    
+    if request.method == "POST":
+        rank_type = request.POST.get('rank_type')
+        book_id = request.POST.get('book_id')
+        book = Book.objects.get(bookID = book_id)
+        print("\nrank type ",rank_type)
+        try:
+            rank = request.session['rank'+book_id]
+            print("\nbook already ranked" ,book.bookRank)
+            form_error = "failed"
+            response = JsonResponse({'form_error': form_error})
+            return  response
+        except:
+            request.session['rank'+book_id] = 1
+            if (rank_type == "upvote"):
+                book.bookRank = int(book.bookRank) + 1
+                
+                book.save()
+                print("\nbook rank upvote " ,book.bookRank)
+            elif(rank_type == "upvote"):
+                book.bookRank = int(book.bookRank) - 1
+                book.save()
+                print("\nbook rank downvote" ,book.bookRank)
+        
+            form_error = "successful"
+            response = JsonResponse({'form_error': form_error})
+            return  response
+            
+            
+            # form_error = "Submission successful"
+            # response = JsonResponse({'form_error': form_error})
+            # return HttpResponseRedirect('/book_info/'+book_id)
+
+    form_error = ""
+    response = JsonResponse({'form_error': form_error})
+    return  response 
 
 def findID():
     newID = 65000

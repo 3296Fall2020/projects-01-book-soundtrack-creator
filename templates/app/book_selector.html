@@ -67,7 +67,7 @@
                                 {% if book.coverImage != "" %}
                                         <img src= "{{book.coverImage.url}}" alt="Book Cover" style="height: 200px; width: 125px;" class="card-img-top">    
                                 {% endif %}
-                            
+                                <p>rank: {{book.bookRank}}</p>
                             </div>
                         {% endfor %}
                     </div>
