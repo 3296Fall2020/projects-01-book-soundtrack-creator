@@ -427,7 +427,7 @@ def book_info(request, *args, **kwargs):
 
 
 def aggregate_top_artists(sp):
-#     print('...getting your top artists')
+    print('...getting your top artists')
     top_artists_name = []
     top_artists_uri = [] 
     ranges = ['short_term', 'medium_term', 'long_term']
@@ -443,16 +443,35 @@ def aggregate_top_artists(sp):
 
 def aggregate_top_tracks(sp, top_artists_uri):
     print("...getting top tracks")
-    top_tracks_name = []
+    # top_tracks_name = []
     top_tracks_uri = []
     for artist in top_artists_uri:
          top_tracks_all_data = sp.artist_top_tracks(artist)
          top_tracks_data = top_tracks_all_data['tracks']
          for track_data in top_tracks_data:
-             top_tracks_name.append(track_data['name'])
+             # top_tracks_name.append(track_data['name'])
              top_tracks_uri.append(track_data['uri'])
     
     return top_tracks_uri
+
+
+def get_track_features(sp, top_tracks_uri):
+    print("...getting track features")
+    selected_tracks_uri = []
+    
+#     def group(seq, size):
+#         return (seq[pos:pos + size] for pos in range(0, len(seq), size))
+#     random.shuffle(top_tracks_uri)
+    for tracks in top_tracks_uri:
+        tracks_all_data = sp.audio_features(tracks)
+        for track_data in tracks_all_data:
+            selected_tracks_uri.append(track_data)
+            # print(track_data)
+    return selected_tracks_uri
+            
+    # print(len(top_tracks_uri))
+    # print(len(selected_tracks_uri))
+
   
 def initial_sign_in(request):
     return render(request, 'initial_sign_in.html')
