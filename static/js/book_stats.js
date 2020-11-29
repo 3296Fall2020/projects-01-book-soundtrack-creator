@@ -25,7 +25,7 @@ async function getBook(url){
         data: {
             labels: ['anticipation', 'fear', 'anger', 'trust', 'surprise', 'positive', 'negative', 'sadness', 'disgust', 'joy'],
             datasets: [{
-                label: '# of Votes',
+                label: 'Emotion Scores for Current Book',
                 data: bookEmotionNew,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
