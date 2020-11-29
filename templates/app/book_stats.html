@@ -4,11 +4,12 @@
     {% load static %}
     <head>
         <link rel="stylesheet" href = "{%static '/css/mainNew.css' %}">
-        
+      
     </head>
     <body>
         <center>
             <h1>Statistics -- {{book.title}}</h1><br>
+            <button type="button" onclick="upvote()">Upvote!</button><h3>{{book.bookRank}}</h3><button type="button" onclick="downvote()">Down vote!</button>
             {% if book.coverImage != "" %}
             <div class="card" style="width: 18rem;">
               <img class="card-img-top" src="{{book.coverImage.url}}" alt="Card image cap">
