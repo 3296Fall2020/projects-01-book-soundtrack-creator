@@ -8,6 +8,50 @@ console.log(getBook(url))
 console.log(document.getElementById('chart'))
 var ctx = document.getElementById('chart').getContext('2d');
 
+async function upvote(){
+    endpoint = "http://127.0.0.1:8000/rank/"
+    const formData = new FormData();
+    const rank_type = "upvote"
+    const book_id = bookID
+    formData.append("rank_type",rank_type)
+    formData.append("book_id", book_id)
+    let csrftoken = getCookie('csrftoken');
+    const resp = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+        headers: { "X-CSRFToken": csrftoken },
+    });
+    response = await resp.json();
+    response = response.form_error
+    if(response == "failed"){
+        alert("You can only vote once!")
+    }
+    console.log("Response: "+response)
+    window.location.reload();
+}
+
+async function downvote(){
+    endpoint = "http://127.0.0.1:8000/rank/"
+    const formData = new FormData();
+    const rank_type = "downvote"
+    const book_id = bookID
+    formData.append("rank_type",rank_type)
+    formData.append("book_id", book_id)
+    let csrftoken = getCookie('csrftoken');
+    const resp = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+        headers: { "X-CSRFToken": csrftoken },
+    });
+    response = await resp.json();
+    response = response.form_error
+    if(response == "failed"){
+        alert("You can only vote once!")
+    }
+    console.log("Response: "+response)
+    window.location.reload();
+}
+
 async function getBook(url){
     let book;
     const resp =  await fetch(url);
