@@ -34,6 +34,7 @@ username = ''
 CACHE = '.spotipyoauthcache'
 
 def index(request):
+    # user = request.session['user']
     try:
         user = request.session['user']
     except:
@@ -108,9 +109,11 @@ def refresh(request):
     return json.dumps(request.session['tokens'])
 
 def profile(request):
+    # user is logged in
     try:
         auth_code = request.session['auth_code']
         tokens = request.session['tokens']
+    # user hasn't logged in
     except:
         return HttpResponseRedirect("/login")
     print(auth_code)
@@ -118,10 +121,12 @@ def profile(request):
     sp = spotipy.Spotify(tokens['access_token'])
     try:
         sp.current_user()
+    # token expired NEED TO HANDLE THIS IN MORE SPOTS
     except:
         refresh(request)
         sp = spotipy.Spotify(tokens['access_token'])
         sp.current_user()
+    
     img_url = sp.current_user()['images'][0]['url']
     print(img_url)
     # total = []
@@ -142,9 +147,26 @@ def profile(request):
     return render(request, 'profile.html', {'user':sp.current_user(), 'profile_pic':img_url})
 
 def logout(request):
+    # request.session['auth_code'] = None
+    # request.session['tokens'] = None
+    """
+    Removes the authenticated user's ID from the request and flushes their
+    session data.
+    """
+    # Dispatch the signal before the user is logged out so the receivers have a
+    # chance to find out *who* logged out.
+    user = getattr(request, 'tokens', None)
+    if hasattr(user, 'is_authenticated') and not user.is_authenticated():
+        user = None
+    user_logged_out.send(sender=user.__class__, request=request, user=user)
+
+    request.session.flush()
+    if hasattr(request, 'tokens'):
+        from django.contrib.auth.models import AnonymousUser
+        request.user = AnonymousUser()
     for key in request.session.keys():
         del request.session[key]
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/profile')
 
 def book_selector(request):
     # request.session.flush()
@@ -157,10 +179,12 @@ def book_selector(request):
         # if(auth_code is None):
         #     return HttpResponseRedirect("/sign_in")
     except:
+        # user hasn't logged in
         if(request.GET.get('code') is None):
             # request.session['auth_code'] = 0
             # auth_code = request.session['auth_code']
             return HttpResponseRedirect("/login")
+        # first time user is logging in
         else:    
             request.session['auth_code'] =  request.GET.get('code')
             auth_code = request.session['auth_code']
