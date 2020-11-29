@@ -18,4 +18,5 @@ urlpatterns = [
     path("test/", views.test, name = "testing"),
     path("get_book/<id>", views.get_book, name = "get book"),
     path("profile/", views.profile, name = "profile"),
+    path("logout/", views.logout, name = "logout"),
 ]

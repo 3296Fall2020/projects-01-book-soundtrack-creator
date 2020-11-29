@@ -87,24 +87,43 @@ def test(request):
 def login(request):
     return render(request, 'login.html')
 
+# call this after 1 hour of session time?
+def refresh(request):
+    '''Refresh access token.'''
+
+    payload = {
+        'grant_type': 'refresh_token',
+        'refresh_token': request.session.get('tokens').get('refresh_token'),
+    }
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+
+    res = requests.post(
+        url = "https://accounts.spotify.com/api/token", auth=(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET), data=payload, headers=headers
+    )
+    res_data = res.json()
+    print(res_data)
+    # Load new token into session
+    request.session['tokens']['access_token'] = res_data.get('access_token')
+
+    return json.dumps(request.session['tokens'])
+
 def profile(request):
     try:
         auth_code = request.session['auth_code']
+        tokens = request.session['tokens']
     except:
         return HttpResponseRedirect("/login")
     print(auth_code)
-    url = "https://accounts.spotify.com/api/token"
-    data = {
-        'grant_type': 'authorization_code',
-        'code': auth_code,
-        'redirect_uri': SPOTIPY_REDIRECT_URI,
-    }
-
-    res = requests.post(url, auth=(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET), data = data)
-    res_data = res.json()
-    print(res_data)
-    sp = spotipy.Spotify()
-    print(sp)
+    
+    sp = spotipy.Spotify(tokens['access_token'])
+    try:
+        sp.current_user()
+    except:
+        refresh(request)
+        sp = spotipy.Spotify(tokens['access_token'])
+        sp.current_user()
+    img_url = sp.current_user()['images'][0]['url']
+    print(img_url)
     # total = []
     # results = sp.current_user_saved_tracks(limit=50)
     # print(results)
@@ -120,14 +139,21 @@ def profile(request):
     # for r in total:
     #     for track in r['items']:
     #         tracks.append(track)
-    return render(request, 'profile.html')
+    return render(request, 'profile.html', {'user':sp.current_user(), 'profile_pic':img_url})
+
+def logout(request):
+    for key in request.session.keys():
+        del request.session[key]
+    return HttpResponseRedirect('/login')
 
 def book_selector(request):
     # request.session.flush()
     print("request", request.GET)
     try:
         auth_code = request.session['auth_code']
+        tokens = request.session['tokens']
         print("authcode 1: ", auth_code)
+        
         # if(auth_code is None):
         #     return HttpResponseRedirect("/sign_in")
     except:
@@ -138,7 +164,30 @@ def book_selector(request):
         else:    
             request.session['auth_code'] =  request.GET.get('code')
             auth_code = request.session['auth_code']
+            url = "https://accounts.spotify.com/api/token"
+            data = {
+                'grant_type': 'authorization_code',
+                'code': auth_code,
+                'redirect_uri': SPOTIPY_REDIRECT_URI,
+            }
+            res = requests.post(url, auth=(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET), data = data)
+            res_data = res.json()
+            print(res_data)
+            if res_data.get('error') or res.status_code != 200:
+                app.logger.error(
+                    'Failed to receive token: %s',
+                    res_data.get('error', 'No error information received.'),
+                )
+                abort(res.status_code)
+
+            # Load tokens into session
+            request.session['tokens'] = {
+                'access_token': res_data.get('access_token'),
+                'refresh_token': res_data.get('refresh_token'),
+            }
+           
         print("authcode 2: ", auth_code)
+    print(request.session['tokens'])
     books = Book.objects.all()
     return render(request, 'book_selector.html', {'books' : books})
    
