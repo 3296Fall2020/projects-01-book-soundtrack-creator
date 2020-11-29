@@ -26,7 +26,7 @@ seed(1)
 
 # Create your views here.
 
-scope = 'user-library-read'
+scope = 'user-library-read user-top-read user-follow-read'
 SPOTIPY_CLIENT_ID = '1d19391e82ac405fb02f35ebf74cc767'
 SPOTIPY_CLIENT_SECRET = '156400e3d8834a8395aaf95d420bb215'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
@@ -403,7 +403,45 @@ def book_info(request, *args, **kwargs):
         classify_emotion(book)
     # Count words if not counted already
     count_words(book)
+
+    # auth code
+    # user is logged in
+    try:
+        auth_code = request.session['auth_code']
+        tokens = request.session['tokens']
+    # user hasn't logged in
+    except:
+        return HttpResponseRedirect("/login")
+    print(auth_code)
+    
+    sp = spotipy.Spotify(tokens['access_token'])
+    try:
+        sp.current_user()
+    # token expired NEED TO HANDLE THIS IN MORE SPOTS
+    except:
+        refresh(request)
+        sp = spotipy.Spotify(tokens['access_token'])
+        sp.current_user()
+
     return render(request, 'book_stats.html', {"book":book})
+
+
+def aggregate_top_artists(sp):
+#     print('...getting your top artists')
+    top_artists_name = []
+    top_artists_uri = [] 
+    ranges = ['short_term', 'medium_term', 'long_term']
+    for r in ranges:
+        top_artists_all_data = sp.current_user_top_artists(limit=50, time_range= r)
+#         print(top_artists_all_data)
+        top_artists_data = top_artists_all_data['items']
+        for artist_data in top_artists_data:
+            if artist_data["name"] not in top_artists_name:
+                top_artists_name.append(artist_data['name'])
+                top_artists_uri.append(artist_data['uri'])
+    return top_artists_uri
+
+
   
 def initial_sign_in(request):
     return render(request, 'initial_sign_in.html')
