@@ -181,8 +181,7 @@ def book_selector(request):
     try:
         auth_code = request.session['auth_code']
         tokens = request.session['tokens']
-        print("authcode 1: ", auth_code)
-        
+        print("authcode 1: ", auth_code)      
         # if(auth_code is None):
         #     return HttpResponseRedirect("/sign_in")
     except:
@@ -220,6 +219,7 @@ def book_selector(request):
         print("authcode 2: ", auth_code)
     print(request.session['tokens'])
     books = Book.objects.all()
+    books = books.order_by('bookRank').reverse()
     return render(request, 'book_selector.html', {'books' : books})
    
    
