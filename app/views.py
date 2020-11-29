@@ -12,7 +12,7 @@ from spotipy import oauth2
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.util import prompt_for_user_token
 from zipfile import ZipFile
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 from tqdm import tqdm
 import json
 import re
