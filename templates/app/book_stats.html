@@ -7,14 +7,24 @@
         
     </head>
     <body>
-        <h1>Book statistics</h1>
-        <h1>Title: {{book.title}} <a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank">Read book here!</a></h1><br>
-        {% if book.coverImage != "" %}
-            <img src= "{{book.coverImage.url}}" class="card-img-top" width="10px" height="200px">    
-        {% endif %}
-        <p>Word Count: {{book.wordCount}}</p><br>
-        <p>Book text: (not showing this because I don't want to print the whole book)</p><br>
-        <canvas id="chart" width="400" height="400"></canvas>
+        <center>
+            <h1>Statistics -- {{book.title}}</h1><br>
+            {% if book.coverImage != "" %}
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="{{book.coverImage.url}}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Book Title: {{book.title}}</h5>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Book Text: <a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank">Link to text here!</a></li>
+                <li class="list-group-item">Total Word Count: {{book.wordCount}} words</li>
+              </ul>
+            </div><br>
+            {% endif %}
+            <div style="width: 70%; height: 50%;">
+                <canvas id="chart"></canvas>
+            </div>
+        </center>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
     <script src = "{%static '/js/book_stats.js' %}"></script>

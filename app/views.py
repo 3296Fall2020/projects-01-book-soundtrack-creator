@@ -146,6 +146,7 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
+# Get list of emotions and clean up the array for chart display
 def get_book(request, *args, **kwargs):
     book = Book.objects.filter(bookID = kwargs["id"])[0]
     emotionDict = book.bookEmotion
@@ -159,15 +160,15 @@ def get_book(request, *args, **kwargs):
     for emo in emotionDictStr:
         emo = emo.split(":")
         emo[0] = emo[0].replace("'","").replace(" ","")
-        print(emo)
+        # print(emo)
         emotionDict[emo[0]] = float(emo[1])
-    print(emotionDict.keys())
+    # print(emotionDict.keys())
     
     # emotionDict = {}
     # if request.method == 'GET':
         
     response = JsonResponse({'emotionDict':emotionDict})
-    return  response  
+    return response
 
 
 @csrf_exempt
@@ -206,7 +207,7 @@ def findID():
     newID = 65000
     while(Book.objects.filter(bookID = newID).count() != 0):
         newID += 1
-    print(newID)
+    # print(newID)
     return newID
 
 @csrf_exempt
@@ -217,10 +218,10 @@ def book_upload(request):
         author = request.POST.get('author')
         textURL = request.POST.get('text')
         cover = request.POST.get('cover')
-        print(bookID)
-        print(title)
-        print(author)
-        print(textURL)
+        # print(bookID)
+        # print(title)
+        # print(author)
+        # print(textURL)
         checkBook = Book.objects.filter(title = title)
         if(checkBook.count() != 0):
             print("book already exists")
@@ -232,7 +233,7 @@ def book_upload(request):
             book.bookID = bookID
             book.title = title
             book.author = author
-            print(cover)
+            # print(cover)
 
             img_data = requests.get(cover).content
             f = open('media/coverImages/'+author.replace(" ", "").replace(",","")+'.jpeg', 'wb')
@@ -243,8 +244,8 @@ def book_upload(request):
         
             
             if('.zip' in textURL):
-                print("CONTAINS ZIP")
-                print(textURL)
+                # print("CONTAINS ZIP")
+                # print(textURL)
                 r = requests.get(textURL)
                 f = open('media/books/'+author.replace(" ", "").replace(",","")+'.zip', "wb")
                 f.write(r.content)
@@ -254,7 +255,7 @@ def book_upload(request):
                 zf.extractall('media/books/')
                 zf.close()
                 filename = textURL.replace("http://www.gutenberg.org/files/"+bookID+"/", "media/books/").replace(".zip",".txt")
-                print(filename)
+                # print(filename)
                 f = open(filename, "r")
                 myfile = File(f)
                 book.bookText = myfile
@@ -294,8 +295,8 @@ def set_user_info(request):
 
 # TODO create ebook reader
 
+# Classifying the emotion of the book
 def classify_emotion(book):
-    
      # book = Book.objects.create()
 
     # Extract the book text
@@ -311,14 +312,33 @@ def classify_emotion(book):
     # emotion = "test emotion"
     book.bookEmotion = emotion
     book.save()
-    
-    
+
+# Counting the words in the book
+def count_words(book):
+    numOfWords = 0
+
+    bookText = book.bookText
+    # print(bookText)
+    bookText.open(mode='r')
+    text = bookText.read()
+    bookText.close()
+
+    # Tokenize the words and get length of the array of words
+    numOfWords = len(text.split())
+
+    book.wordCount = numOfWords
+    book.save()
+
+# Get the book information
 def book_info(request, *args, **kwargs):
     # book = Book.objects.create()
     # Extract the book text
     book = Book.objects.filter(bookID = kwargs["id"])[0]
+    # Classify the emotion if not classified already
     if(book.bookEmotion == ""):
         classify_emotion(book)
+    # Count words if not counted already
+    count_words(book)
     return render(request, 'book_stats.html', {"book":book})
   
 def initial_sign_in(request):
