@@ -16,17 +16,26 @@
 
         <!--CSS stuff right here, we stylish-->
         <style>
+
+            body {
+                background-color: #212121;
+            }
+
             .container-fluid {
                 font-family: Tahoma, Geneva, sans-serif;
             }
-            .container-fluid h1{
+
+            .container-fluid h1 {
                 text-align: center;
                 color: #131212;
                 font-size: 24px;
                 padding: 20px 0 20px 0;
             }
-            .button{
+
+            .button {
                /* border: 0px; */
+                color: white;
+                background-color: #1DB954;
                 width: 100%;
                 padding: 15px;
                 border: 0;
@@ -35,6 +44,10 @@
                 font-size: bold;
                 /* box-shadow: 1px 1px 1px; */
                 transition: width .5s;
+            }
+
+            button:hover {
+                color: black;
             }
 
         </style>
@@ -48,22 +61,18 @@
             <div class="explanation">
                 <p style="text-align: center;">Select a book from the list below or click the button to enter a book of your choice!</p>
             </div>
-            <!-- <div class="enter-book-button" style="text-align: center;">
-                <button class = "button" onclick=enterBook() id = "enter">Go Enter A Book</button>
-            </div><br> -->
             <a href="/book_import">
                 <!--The reason why I have the word button in front of enter button is because that is what signifies that specific button when working with css-->
                 <button class = "button enter button">Enter a book</button>
             </a><br>
             <!--This row and column system will house the books being read in by Django-->
-            <div class="grid-container d-flex justify-content-between" id="container">
+            <div class="grid-container d-flex justify-content-between" id="container" style="color: white">
                 <h1 id="emptySearch"></h1>
-                
                     <div class="row justify-content-center" id="row">
                         {% for book in books %}
                             <div class="col-md-3 book" name="84" onclick = "window.location.href = '/book_info/{{ book.bookID }}'" style="border: 2px solid rgb(68, 188, 201); margin: 10px; padding: 10px; border-radius: 5px; cursor: pointer;">
                                 <p class="title"  style="font-weight: bold;">{{book.title}}</p>
-                                <p class="author" >{{book.author}}</p>
+                                <p class="author" style="color: white;">{{book.author}}</p>
                                 {% if book.coverImage != "" %}
                                         <img src= "{{book.coverImage.url}}" alt="Book Cover" style="height: 200px; width: 125px;" class="card-img-top">    
                                 {% endif %}
