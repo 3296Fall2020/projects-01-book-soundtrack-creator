@@ -304,7 +304,7 @@ def rank(request):
                 
                 book.save()
                 print("\nbook rank upvote " ,book.bookRank)
-            elif(rank_type == "upvote"):
+            elif(rank_type == "downvote"):
                 book.bookRank = int(book.bookRank) - 1
                 book.save()
                 print("\nbook rank downvote" ,book.bookRank)
