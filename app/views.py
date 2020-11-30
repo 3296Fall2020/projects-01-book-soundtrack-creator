@@ -491,7 +491,42 @@ def calculate_top_top_tracks(book_emotions, song_features, book_title):
 
     pass
 
+def calculate_books(book_score, track_features):
+    tracks = []
+    temp_dict = {}
+    for track in track_features:
+        temp_dict[abs(track['valence'] - book_score)] = track['id']
 
+        i = 0
+        for score in sorted(temp_dict.keys()):
+            tracks.append(temp_dict[score])
+            i+=1
+            if i >= 10:
+                break
+        return tracks
+
+def calculate_book_score(book_emotion_dict):
+    count = 0
+    for emotion in book_emotion_dict:
+        if emotion == 'anticipation':
+            count += 0.25
+        if emotion == 'joy':
+            count += 0.45
+        if emotion == 'fear':
+            count += 0
+        if emotion == 'anger':
+            count += 0
+        if emotion == 'trust':
+            count += .25
+        if emotion == 'surprise':
+            count += 0.3
+        if emotion == 'sadness':
+            count += 0
+        if emotion == 'disgust':
+            count += 0.1
+    return count
+
+    
 def aggregate_top_artists(sp):
     print('...getting your top artists')
     top_artists_name = []
@@ -532,7 +567,7 @@ def get_track_features(sp, top_tracks_uri):
         tracks_all_data = sp.audio_features(tracks)
         for track_data in tracks_all_data:
             selected_tracks_uri.append(track_data)
-            # print(track_data)
+            print(track_data)
     return selected_tracks_uri
             
     # print(len(top_tracks_uri))
