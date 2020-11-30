@@ -4,12 +4,44 @@
     {% load static %}
     <head>
         <link rel="stylesheet" href = "{%static '/css/mainNew.css' %}">
-      
+        <style>
+            body{
+                background-color: #212121;
+                color: black;
+            }
+            h1, h2{
+                color: white;
+                display: inline;
+            }
+            h1:hover{
+                color: #1DB954;
+            }
+            h3{
+                color: white;
+            }
+            h3:hover{
+                color: #1DB954;
+            }
+            .chartDiv{
+                background-color: white;
+            }
+            a{
+                color: #1DB954;
+            }
+            a:hover{
+                color: #1DB954;
+            }
+            .btn{
+                color: white;
+                background-color: #1DB954;
+            }
+        </style>
     </head>
     <body>
         <center>
-            <h1>Statistics -- {{book.title}}</h1><br>
-            <button type="button" onclick="upvote()">Upvote!</button><h3>{{book.bookRank}}</h3><button type="button" onclick="downvote()">Down vote!</button>
+            <br>
+            <h1>Statistics for <u><i>{{book.title}}</i></u></h1><br><br>
+            <button class="btn btn-lg" onclick="upvote()">Upvote!</button><br><br><h3>Current # Votes: {{book.bookRank}}<br><br></h3><button class="btn btn-lg" onclick="downvote()">Down vote!</button><br><br>
             {% if book.coverImage != "" %}
             <div class="card" style="width: 18rem;">
               <img class="card-img-top" src="{{book.coverImage.url}}" alt="Card image cap">
@@ -22,7 +54,7 @@
               </ul>
             </div><br>
             {% endif %}
-            <div style="width: 70%; height: 50%;">
+            <div class="chartDiv" style="width: 70%; height: 50%;">
                 <canvas id="chart"></canvas>
             </div>
         </center>
