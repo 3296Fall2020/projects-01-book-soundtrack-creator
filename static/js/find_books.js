@@ -165,7 +165,7 @@ async function importBook(book){
     console.log(textUrl)
     var cover = book.formats['image/jpeg']
     console.log(cover)
-    const endpoint = "http://127.0.0.1:8000/book_upload/";
+    const endpoint = "http://3.139.54.214:8000/book_upload/";
     let csrftoken = getCookie('csrftoken');
 
     var formData = new FormData();
@@ -188,7 +188,7 @@ async function importBook(book){
     }else {
         alert(responseMsg)
     }
-    window.location.href = "http://127.0.0.1:8000/book_info/"+id
+    window.location.href = "http://3.139.54.214:8000/book_info/"+id
     console.log("didn't work?")
 }
 
