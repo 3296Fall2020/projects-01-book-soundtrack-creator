@@ -478,8 +478,18 @@ def book_info(request, *args, **kwargs):
         refresh(request)
         sp = spotipy.Spotify(tokens['access_token'])
         sp.current_user()
-
+    # top_arists = aggregate_top_artists(sp)
+    # top_tracks = aggregate_top_tracks(sp, top_arists)
+    # track_features = get_track_features(sp, top_tracks)
+    # calculate_top_top_tracks(book.bookEmotion, track_features, book_title)
     return render(request, 'book_stats.html', {"book":book})
+
+def calculate_top_top_tracks(book_emotions, song_features, book_title):
+
+    book_emotions = format_book_emotion_dict(book_emotions)
+    spotify_features = format_track_features(song_features)
+
+    pass
 
 
 def aggregate_top_artists(sp):
