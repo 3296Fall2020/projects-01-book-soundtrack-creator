@@ -222,6 +222,11 @@ def book_selector(request):
     books = Book.objects.all()
     books = books.order_by('bookRank').reverse()
     return render(request, 'book_selector.html', {'books' : books})
+
+    #books = books.order_by('bookRank').reverse()
+    #for x in range(11):
+    #    topTenBooks = x
+    #return render(request, 'book_selector.html', {'books' : topTenBooks})
    
    
 def book_import(request):
