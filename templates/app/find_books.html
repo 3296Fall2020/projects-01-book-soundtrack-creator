@@ -17,7 +17,22 @@
         <html>
         <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--This styling is for the background, words, and buttons. The guten.css file is for the books and the containers-->
         <style>
+
+            body {
+                background-color: #212121;
+                color: white;
+            }
+            
+            button {
+                color: white;
+                background-color: #1DB954;
+            }
+
+            button:hover {
+                color: black;
+            }
         
         </style>
         </head>     
@@ -38,6 +53,11 @@
         </form>
         <br>
         <b><h3 style="text-align: center;">Click on a book to download it to your profile!</h3></b>
+        <button onclick="lastPage()" >LAST</button>
+        <!-- The import button will be right below, its commented out for now -->
+        <!-- <a href="/book_import">
+                <button class = "button enter button">Enter a book</button>
+            </a> -->
         <button onclick="nextPage()" >NEXT</button>
         
         <div class="grid-container d-flex justify-content-between" id = "container">
