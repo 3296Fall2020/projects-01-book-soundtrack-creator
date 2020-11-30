@@ -6,18 +6,166 @@
 
         <!--CSS stuffsss right here, we fancy lookin-->
         <style>
-            
+            .home h1{
+                margin: auto;
+                text-align: center;
+                width: 50%;
+                padding: 10px;
+            }
 
+            .home img{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 300px;
+                height: 300px;
+            }
 
+            .description{
+                padding: 10px;
+            }
+
+            #footerDiv {
+                text-align: left;
+                padding-top: 100px;
+                padding-bottom: 100px;
+                font-family: 'Raleway', sans-serif;
+            }
+
+            body {
+                background-color: #212121;
+                color: white;
+            }
+
+            .footer {
+                color: white;
+	            background-color: #1DB954;;
+            }
+
+            #footerBottom {
+                color: white;
+            }
+
+            #footerContainer {
+                background-color: #4682B4;
+                padding: 1.5%;
+                margin-left: 0px;
+            }
+
+            #abth1 {
+                font-family: 'Raleway', sans-serif;
+                color: white;
+                font-size: 20px;
+            }
+
+            #footer_logo {
+                width: 20%;
+            }
+
+            #footerP {
+                color: white;
+                margin-top: 5%;
+                font-size: 15px;
+            }
+
+            .fa {
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+            text-decoration: none;
+            margin: 5px 2px;
+            border-radius: 20px;
+            }
+
+            .fa a {
+                text-decoration: none;
+            }
+
+            .fa:hover {
+                color: black;
+                text-decoration: none;
+            }
+
+            #copyright {
+                font-size: 12px;
+            }
+
+            .footer-col {
+                margin: auto;
+                padding: 0 5% 0 5%;
+                width: 45%;
+            }
+
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            #relatedLinksList {
+                list-style: none;
+                color: white;
+                text-align: center;
+            }
+
+            .footerlink {
+                color: white;
+            }
+
+            #linksH1 {
+                font-size: 25px;
+                text-align: center;
+                font-weight: bold;
+                margin-left: 30px;
+            }
+
+            a:link {
+                text-decoration: none;
+            }
         </style>
 
     </head>
     <body>
-        <div class="home" style="margin-top: 15%;">
+        <div class="home" style="margin-top: 10%;">
             <h1>Read books with the right mood!</h1>
-            <p></p>
-            <p>You are user {{user}}</p>
+            <br>
+            <img src="{% static 'img/sloth_reading.jpg' %}" alt="Sloth reading">
+            <br>
+            <!--<p style="text-align: center;">You are user {{user}}!</p> -->
         </div>
+
+        <div class="description">
+            <p style="text-align: center;"> Have you ever wanted to read a book with your croissant or 
+                bagel in the morning but weren't in the mood? With our website you'll never have that issue 
+                again! Click on the tab, Find books!, to get started. While on there you'll be able to select 
+                any book, from the provided list, that you want a playlist for. If the book you want isn't listed 
+                then you'll be able to import it as long as you have the file for it! When a book is selected, not 
+                only will a playlist be generated but you'll also be able to see statistics for it as well. If you're
+                more interested in the most popular books people are makng playlsits for, check out the popular books page
+                and created playlsits for them too! Have fun exploring the site and enjoy your new playlists for each of your books!</p>
+        </div>
+
+        <div class = "footer" style="padding: 3% 0 3% 0">
+            <div class="row">
+                <div class="footer-col">
+                    <h1 id = "linksH1">Recognitions</h1>
+                    <ul id="relatedLinksList">
+                        <li class = "footerlink"><a href="http://gutendex.com/" class = "footerlink">Gutendex</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id = "footerBottom">
+            <div class = "container-fluid" id = "footerContainer">
+                <div class = "row">
+                    <div class = "col" id = "copyright">
+                        © 2020 Tyler's 5 | website developed and maintained by Tyler's 5 |
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
