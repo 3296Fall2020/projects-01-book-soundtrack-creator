@@ -14,6 +14,7 @@ from spotipy.util import prompt_for_user_token
 from zipfile import ZipFile
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+from heapq import nlargest
 import json
 import re
 import os
@@ -304,7 +305,7 @@ def rank(request):
                 
                 book.save()
                 print("\nbook rank upvote " ,book.bookRank)
-            elif(rank_type == "upvote"):
+            elif(rank_type == "downvote"):
                 book.bookRank = int(book.bookRank) - 1
                 book.save()
                 print("\nbook rank downvote" ,book.bookRank)
@@ -477,8 +478,18 @@ def book_info(request, *args, **kwargs):
         refresh(request)
         sp = spotipy.Spotify(tokens['access_token'])
         sp.current_user()
-
+    # top_arists = aggregate_top_artists(sp)
+    # top_tracks = aggregate_top_tracks(sp, top_arists)
+    # track_features = get_track_features(sp, top_tracks)
+    # calculate_top_top_tracks(book.bookEmotion, track_features, book_title)
     return render(request, 'book_stats.html', {"book":book})
+
+def calculate_top_top_tracks(book_emotions, song_features, book_title):
+
+    book_emotions = format_book_emotion_dict(book_emotions)
+    spotify_features = format_track_features(song_features)
+
+    pass
 
 
 def aggregate_top_artists(sp):
@@ -527,7 +538,35 @@ def get_track_features(sp, top_tracks_uri):
     # print(len(top_tracks_uri))
     # print(len(selected_tracks_uri))
 
-  
+def format_book_emotion_dict(book_emotion):
+    result = {}
+    book_emotion.pop('positive')
+    book_emotion.pop('negative')
+    three_largest = nlargest(3, d, key=d.get)
+    for val in three_largest:
+        result[val] = book_emotion[val]
+        
+    return result
+
+
+def format_track_features(track_features):
+    for track in track_features:
+        track.pop('key')
+        track.pop('loudness')
+        track.pop('speechiness')
+        track.pop('acousticness')
+        track.pop('instrumentalness')
+        track.pop('liveness')
+        track.pop('tempo')
+        track.pop('mode')
+        track.pop('type')
+        track.pop('time_signature')
+        track.pop('duration_ms')
+        track.pop('id')
+        track.pop('uri')
+        track.pop('analysis_url')
+    return track_features   
+
 def initial_sign_in(request):
     return render(request, 'initial_sign_in.html')
 
