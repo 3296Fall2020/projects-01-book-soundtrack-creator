@@ -1,5 +1,5 @@
 .navbar-custom {
-	background-color: #020826;
+	background-color: #212121;
 	color: white;
 	box-shadow: 0px 0px 5px 0px #5ebcff;
 }
@@ -17,7 +17,7 @@
 
 .nav-link:hover {
 	color: white;
-	background-color: #44bcc9;
+	background-color: #1DB954;;
 
 }
 
