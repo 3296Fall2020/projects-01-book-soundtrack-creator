@@ -234,9 +234,14 @@ def book_selector(request):
                 'refresh_token': res_data.get('refresh_token'),
             }
             sp = get_spotify(request)
-            print("User " +str(request.session['user'])+": "+"\n\n++++++++++++++++++++++++++++++++++++++++++++++NEW USER LOGGED IN+++++++++++++++++++++++++++++++++++++++++++++\n\n"
-                        +str(sp.current_user())+
-                  "\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
+            try:
+                user = request.session['user']
+                print("User " +str(request.session['user'])+": "+"\n\n++++++++++++++++++++++++++++++++++++++++++++++NEW USER LOGGED IN+++++++++++++++++++++++++++++++++++++++++++++\n\n"
+                            +str(sp.current_user())+
+                    "\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
+            except:
+                request.session['user'] = randint(0, 100)
+                user = request.session['user']
             try:
                 url = request.session['url']
                 if(url != "/book_selector"):
@@ -245,6 +250,7 @@ def book_selector(request):
                 pass
         # print("User " +str(request.session['user'])+": "+"authcode 2: ", auth_code)
     # print("User " +str(request.session['user'])+": "+"book_selector -- tokens from spotify: ",request.session['tokens'])
+    
     books = Book.objects.all()
     books = books.order_by('bookRank').reverse()[:9] #reverse ranks books
     return render(request, 'book_selector.html', {'books' : books})
