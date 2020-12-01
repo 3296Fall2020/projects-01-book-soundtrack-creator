@@ -8,7 +8,7 @@ console.log(getBook(url))
 console.log(document.getElementById('chart'))
 var ctx = document.getElementById('chart').getContext('2d');
 
-function linkTest(){
+function linkText(){
     window.open('http://gutenberg.org/ebooks/'+bookID)
 }
 
