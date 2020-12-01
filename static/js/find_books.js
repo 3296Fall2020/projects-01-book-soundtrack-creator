@@ -112,6 +112,12 @@ function nextPage(){
     loadBooks(url)
 }
 
+function lastPage(){
+    url = response.previous
+    console.log(url)
+    loadBooks(url)
+} 
+
 function getSearchBook(){
     url = "http://gutendex.com/books?search="
     bookSearch = document.getElementById("bookSearch").value
