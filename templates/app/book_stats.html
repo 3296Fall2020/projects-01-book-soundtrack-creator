@@ -12,14 +12,9 @@
                 color: white;
                 display: inline;
             }
-            h1:hover{
-                color: #1DB954;
-            }
             h3{
                 color: white;
-            }
-            h3:hover{
-                color: #1DB954;
+                display: inline;
             }
             .chartDiv{
                 background-color: white;
@@ -33,6 +28,7 @@
             .btn{
                 color: white;
                 background-color: #1DB954;
+                margin: 2%;
             }
         </style>
     </head>
@@ -40,24 +36,20 @@
         <center>
             <br>
             <h1>Statistics for <u><i>{{book.title}}</i></u></h1><br><br>
-            <button class="btn btn-lg" onclick="upvote()">Upvote!</button><br><br><h3>Current # Votes: {{book.bookRank}}<br><br></h3><button class="btn btn-lg" onclick="downvote()">Down vote!</button><br><br>
+            <button class="btn btn-lg">Link to Text<a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank"></a></button><br>
+            <button class="btn btn-lg" onclick="downvote()">Downvote!</button><h3>Current # Votes: {{book.bookRank}}</h3><button class="btn btn-lg" onclick="upvote()">Upvote!</button><br><br>
             {% if book.coverImage != "" %}
             <div class="card" style="width: 18rem;">
               <img class="card-img-top" src="{{book.coverImage.url}}" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Book Title: {{book.title}}</h5>
+                <h5 class="card-title">Total Word Count: {{book.wordCount}} words</h5>
               </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Book Text: <a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank">Link to text here!</a></li>
-                <li class="list-group-item">Total Word Count: {{book.wordCount}} words</li>
-              </ul>
             </div><br>
             {% endif %}
             <div id = "buttons">
                 <button class="btn btn-lg" onclick="createPlaylist()" id="playlist">Create Playlist!</button>
-            </div>
+            </div><br>
             <div class="chartDiv" style="width: 70%; height: 50%;">
-                
                 <canvas id="chart"></canvas>
             </div>
         </center>
