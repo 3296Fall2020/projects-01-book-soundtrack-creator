@@ -29,8 +29,8 @@ function loadPage(){
         bookDiv.setAttribute('class', "col-md-3 book");
         bookDiv.setAttribute('id', 'book'+book);
         bookDiv.setAttribute('name', books[book].id + '')
-        bookDiv.setAttribute('onmouseover', "document.getElementById(book"+book+").style.boxShadow = '1px 1px 10px 0px #1DB954'")
-        bookDiv.setAttribute('onmouseout', "document.getElementById(book"+book+").style.boxShadow = '0px 0px 0px 0px'")
+        bookDiv.setAttribute('onmouseover', "document.getElementById('book"+book+"').style.boxShadow = '1px 1px 10px 0px #1DB954'")
+        bookDiv.setAttribute('onmouseout', "document.getElementById('book"+book+"').style.boxShadow = '0px 0px 0px 0px'")
 
         bookDiv.style.border = "2px solid #1DB954"
         bookDiv.style.margin = "10px"
