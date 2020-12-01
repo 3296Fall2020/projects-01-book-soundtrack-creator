@@ -30,7 +30,7 @@ seed(1)
 scope = 'user-library-read user-top-read user-follow-read playlist-modify-public playlist-modify-private'
 SPOTIPY_CLIENT_ID = '1d19391e82ac405fb02f35ebf74cc767'
 SPOTIPY_CLIENT_SECRET = '156400e3d8834a8395aaf95d420bb215'
-SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
+SPOTIPY_REDIRECT_URI = 'http://3.139.54.214:8000/book_selector/'
 username = ''
 CACHE = '.spotipyoauthcache'
 
@@ -46,7 +46,7 @@ def index(request):
 # test view (used this to develop some experimental functionality)
 def test(request):
     count = 1
-    requests_response = requests.get("http://127.0.0.1:8000/find_books/")
+    requests_response = requests.get("http://3.139.54.214:8000/find_books/")
     try:
         user = request.session['user']
     except:
@@ -237,10 +237,12 @@ def book_selector(request):
             print("User " +str(request.session['user'])+": "+"\n\n++++++++++++++++++++++++++++++++++++++++++++++NEW USER LOGGED IN+++++++++++++++++++++++++++++++++++++++++++++\n\n"
                         +str(sp.current_user())+
                   "\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
-            
-            if(request.session['url'] != "/book_selector"):
-                return HttpResponseRedirect(request.session['url'])
-
+            try:
+                url = request.session['url']
+                if(url != "/book_selector"):
+                    return HttpResponseRedirect(request.session['url'])
+            except:
+                pass
         # print("User " +str(request.session['user'])+": "+"authcode 2: ", auth_code)
     # print("User " +str(request.session['user'])+": "+"book_selector -- tokens from spotify: ",request.session['tokens'])
     books = Book.objects.all()
@@ -251,6 +253,7 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
+@csrf_exempt
 def createPlaylist(request):
     if request.method == 'POST':
         book_id = request.POST.get('book_id')
