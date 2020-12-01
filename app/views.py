@@ -251,6 +251,42 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
+def createPlaylist(request):
+    if request.method == 'POST':
+        book_id = request.POST.get('book_id')
+        # if user has created a playlist for this book
+        try:
+            book_id = request.POST.get('book_id')
+            playlist = request.session['playlist'+book_id]
+            form_error = "USER ALREADY CREATED THIS PLAYLIST"
+            print("User " +str(request.session['user'])+": "+"rank -- POST message: ", form_error)
+            form_error = "failed"
+            response = JsonResponse({'form_error': form_error})
+            return  response
+         # if user has created a playlist for this book
+        except:
+            request.session['playlist'+book_id] = 1  
+            print(book_id)
+            book = Book.objects.get(bookID = book_id)
+            sp = get_spotify(request)
+            try:
+                top_artists = aggregate_top_artists(sp)
+                top_tracks = aggregate_top_tracks(sp, top_artists)
+                track_features = get_track_features(sp, top_tracks)
+                calculate_top_tracks(sp, book.bookEmotion, track_features, book.title)
+                form_error = "successful"
+                response = JsonResponse({'form_error': form_error})
+                return  response
+            except:
+                form_error = "failed no history"
+                response = JsonResponse({'form_error': form_error})
+                return  response
+              
+    else:
+        form_error = "Submission failed"
+        response = JsonResponse({'form_error': form_error})
+        return  response  
+
 @csrf_exempt
 def book_import_upload(request):
     if request.method == 'POST':
@@ -488,10 +524,10 @@ def book_info(request, *args, **kwargs):
         refresh(request)
         sp = spotipy.Spotify(tokens['access_token'])
         sp.current_user()
-    top_artists = aggregate_top_artists(sp)
-    top_tracks = aggregate_top_tracks(sp, top_artists)
-    track_features = get_track_features(sp, top_tracks)
-    calculate_top_tracks(sp, book.bookEmotion, track_features, book.title)
+    # top_artists = aggregate_top_artists(sp)
+    # top_tracks = aggregate_top_tracks(sp, top_artists)
+    # track_features = get_track_features(sp, top_tracks)
+    # calculate_top_tracks(sp, book.bookEmotion, track_features, book.title)
     return render(request, 'book_stats.html', {"book":book})
 
 def calculate_top_tracks(sp, book_emotions, song_features, book_title):
@@ -519,11 +555,11 @@ def calculate_books(book_score, track_features):
         temp_dict[abs(track['valence'] - book_score)] = track['id']
 
         i = 0
-        for score in sorted(temp_dict.keys()):
-            tracks.append(temp_dict[score])
-            i+=1
-            if i >= 10:
-                break
+    for score in sorted(temp_dict.keys()):
+        tracks.append(temp_dict[score])
+        i+=1
+        if i >= 30:
+            break
     return tracks
 
 def calculate_book_score(book_emotion_dict):
@@ -554,7 +590,7 @@ def aggregate_top_artists(sp):
     top_artists_uri = [] 
     ranges = ['medium_term']
     for r in ranges:
-        top_artists_all_data = sp.current_user_top_artists(limit=10, time_range= r)
+        top_artists_all_data = sp.current_user_top_artists(limit=20, time_range= r)
 #         print(top_artists_all_data)
         top_artists_data = top_artists_all_data['items']
         for artist_data in top_artists_data:
@@ -590,7 +626,7 @@ def get_track_features(sp, top_tracks_uri):
         tracks_all_data = sp.audio_features(tracks)
         for track_data in tracks_all_data:
             selected_tracks_uri.append(track_data)
-            print(track_data)
+            # print(track_data)
 
     return selected_tracks_uri
             
@@ -600,8 +636,8 @@ def get_track_features(sp, top_tracks_uri):
 def format_book_emotion_dict(book_emotion):
     result = {}
     book_emotion = eval(book_emotion)
-    print(type(book_emotion))
-    print(book_emotion)
+    # print(type(book_emotion))
+    # print(book_emotion)
     book_emotion.pop('positive')
     book_emotion.pop('negative')
     three_largest = nlargest(3, book_emotion, key=book_emotion.get)

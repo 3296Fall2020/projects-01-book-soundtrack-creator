@@ -30,6 +30,32 @@ async function upvote(){
     window.location.reload();
 }
 
+async function createPlaylist(){
+    endpoint = "http://127.0.0.1:8000/create_playlist/"
+    const formData = new FormData();
+    const book_id = bookID
+    console.log(book_id)
+    formData.append("book_id", book_id)
+    let csrftoken = getCookie('csrftoken');
+    button = document.getElementById('playlist')
+    button.innerHTML = "Creating playlist...."
+    const resp = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+        headers: { "X-CSRFToken": csrftoken },
+    });
+    response = await resp.json();
+    response = response.form_error
+    if(response == "failed"){
+        alert("You can only create one playlist per book!")
+    }
+    if(response == "failed no history"){
+        alert("Not enough listening history.")
+    }
+    button.innerHTML = "Playlist created!"
+    console.log("Response: "+response)
+}
+
 async function downvote(){
     endpoint = "http://127.0.0.1:8000/rank/"
     const formData = new FormData();

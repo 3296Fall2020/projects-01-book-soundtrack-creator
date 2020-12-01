@@ -19,4 +19,5 @@ urlpatterns = [
     path("profile/", views.profile, name = "profile"),
     path("logout/", views.logout, name = "logout"),
     path("rank/", views.rank, name = "rank"),
+    path("create_playlist/", views.createPlaylist, name = "rank"),
 ]
