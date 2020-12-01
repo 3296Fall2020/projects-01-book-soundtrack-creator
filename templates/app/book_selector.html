@@ -32,6 +32,9 @@
                 padding: 20px 0 20px 0;
             }
 
+            .book:hover{
+                box-shadow: 1px 1px 10px 0px #1DB954;
+            }
             .button {
                /* border: 0px; */
                 color: white;
@@ -70,12 +73,12 @@
                     <div class="row justify-content-center" id="row">
                         {% for book in books %}
                             <div class="col-md-3 book" name="84" onclick = "window.location.href = '/book_info/{{ book.bookID }}'" style="border: 2px solid #1DB954; margin: 10px; padding: 10px; border-radius: 5px; cursor: pointer;">
-                                <p class="title"  style="font-weight: bold;">{{book.title}}</p>
+                                <h3 class="title"  style="font-weight: bold;">{{book.title}}</p>
                                 <p class="author" style="color: white;">{{book.author}}</p>
                                 {% if book.coverImage != "" %}
                                         <img src= "{{book.coverImage.url}}" alt="Book Cover" style="height: 200px; width: 125px;" class="card-img-top">    
                                 {% endif %}
-                                <p>rank: {{book.bookRank}}</p>
+                                <h3>Votes: <b>{{book.bookRank}}</b></h3>
                             </div>
                         {% endfor %}
                     </div>
