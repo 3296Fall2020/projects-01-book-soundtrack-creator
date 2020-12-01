@@ -27,7 +27,7 @@ seed(1)
 
 # Create your views here.
 
-scope = 'user-library-read user-top-read user-follow-read'
+scope = 'user-library-read user-top-read user-follow-read playlist-modify-public playlist-modify-private'
 SPOTIPY_CLIENT_ID = '1d19391e82ac405fb02f35ebf74cc767'
 SPOTIPY_CLIENT_SECRET = '156400e3d8834a8395aaf95d420bb215'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
@@ -488,27 +488,74 @@ def book_info(request, *args, **kwargs):
         refresh(request)
         sp = spotipy.Spotify(tokens['access_token'])
         sp.current_user()
-    # top_arists = aggregate_top_artists(sp)
-    # top_tracks = aggregate_top_tracks(sp, top_arists)
-    # track_features = get_track_features(sp, top_tracks)
-    # calculate_top_top_tracks(book.bookEmotion, track_features, book.title)
+    top_artists = aggregate_top_artists(sp)
+    top_tracks = aggregate_top_tracks(sp, top_artists)
+    track_features = get_track_features(sp, top_tracks)
+    calculate_top_tracks(sp, book.bookEmotion, track_features, book.title)
     return render(request, 'book_stats.html', {"book":book})
 
-def calculate_top_top_tracks(book_emotions, song_features, book_title):
-
+def calculate_top_tracks(sp, book_emotions, song_features, book_title):
+    print("...calculating tracks")
     book_emotions = format_book_emotion_dict(book_emotions)
     spotify_features = format_track_features(song_features)
 
+
+    book_score = calculate_book_score(book_emotions)
+    tracks = calculate_books(book_score, spotify_features)
+    # print(book_score)
+    # print(tracks)
+
+    # create new playlist
+    new_playlist = sp.user_playlist_create(sp.current_user()['id'], name=book_title, public=True, collaborative=False, description='')
+    # load songs into new playlist
+    sp.user_playlist_add_tracks(sp.current_user()['id'], new_playlist['id'], tracks=tracks, position=None)
+
     pass
 
+def calculate_books(book_score, track_features):
+    tracks = []
+    temp_dict = {}
+    for track in track_features:
+        temp_dict[abs(track['valence'] - book_score)] = track['id']
+
+        i = 0
+        for score in sorted(temp_dict.keys()):
+            tracks.append(temp_dict[score])
+            i+=1
+            if i >= 10:
+                break
+        return tracks
+
+def calculate_book_score(book_emotion_dict):
+    count = 0
+    for emotion in book_emotion_dict:
+        if emotion == 'anticipation':
+            count += 0.25
+        if emotion == 'joy':
+            count += 0.45
+        if emotion == 'fear':
+            count += 0
+        if emotion == 'anger':
+            count += 0
+        if emotion == 'trust':
+            count += .25
+        if emotion == 'surprise':
+            count += 0.3
+        if emotion == 'sadness':
+            count += 0
+        if emotion == 'disgust':
+            count += 0.1
+    return count
+
+    
 def aggregate_top_artists(sp):
-    print("User " +str(request.session['user'])+": "+'...getting your top artists')
+    # print('...getting your top artists')
     top_artists_name = []
     top_artists_uri = [] 
-    ranges = ['short_term', 'medium_term', 'long_term']
+    ranges = ['medium_term']
     for r in ranges:
-        top_artists_all_data = sp.current_user_top_artists(limit=50, time_range= r)
-#         print("User " +str(request.session['user'])+": "+top_artists_all_data)
+        top_artists_all_data = sp.current_user_top_artists(limit=10, time_range= r)
+#         print(top_artists_all_data)
         top_artists_data = top_artists_all_data['items']
         for artist_data in top_artists_data:
             if artist_data["name"] not in top_artists_name:
@@ -518,6 +565,7 @@ def aggregate_top_artists(sp):
 
 def aggregate_top_tracks(sp, top_artists_uri):
     print("User " +str(request.session['user'])+": "+"...getting top tracks")
+
     # top_tracks_name = []
     top_tracks_uri = []
     for artist in top_artists_uri:
@@ -532,6 +580,7 @@ def aggregate_top_tracks(sp, top_artists_uri):
 
 def get_track_features(sp, top_tracks_uri):
     print("User " +str(request.session['user'])+": "+"...getting track features")
+
     selected_tracks_uri = []
     
 #     def group(seq, size):
@@ -541,7 +590,8 @@ def get_track_features(sp, top_tracks_uri):
         tracks_all_data = sp.audio_features(tracks)
         for track_data in tracks_all_data:
             selected_tracks_uri.append(track_data)
-            # print("User " +str(request.session['user'])+": "+track_data)
+            print("User " +str(request.session['user'])+": "+track_data)
+
     return selected_tracks_uri
             
     # print("User " +str(request.session['user'])+": "+len(top_tracks_uri))
@@ -549,9 +599,12 @@ def get_track_features(sp, top_tracks_uri):
 
 def format_book_emotion_dict(book_emotion):
     result = {}
+    book_emotion = eval(book_emotion)
+    print(type(book_emotion))
+    print(book_emotion)
     book_emotion.pop('positive')
     book_emotion.pop('negative')
-    three_largest = nlargest(3, d, key=d.get)
+    three_largest = nlargest(3, book_emotion, key=book_emotion.get)
     for val in three_largest:
         result[val] = book_emotion[val]
         
@@ -571,7 +624,6 @@ def format_track_features(track_features):
         track.pop('type')
         track.pop('time_signature')
         track.pop('duration_ms')
-        track.pop('id')
         track.pop('uri')
         track.pop('analysis_url')
     return track_features   
