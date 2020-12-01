@@ -273,8 +273,9 @@ def createPlaylist(request):
                 top_artists = aggregate_top_artists(sp)
                 top_tracks = aggregate_top_tracks(sp, top_artists)
                 track_features = get_track_features(sp, top_tracks)
-                calculate_top_tracks(sp, book.bookEmotion, track_features, book.title)
-                form_error = "successful"
+                url = calculate_top_tracks(sp, book.bookEmotion, track_features, book.title)
+                print("createPlaylist: playlist url: ",url)
+                form_error = url
                 response = JsonResponse({'form_error': form_error})
                 return  response
             except:
@@ -545,7 +546,8 @@ def calculate_top_tracks(sp, book_emotions, song_features, book_title):
     new_playlist = sp.user_playlist_create(sp.current_user()['id'], name=book_title, public=True, collaborative=False, description='')
     # load songs into new playlist
     sp.user_playlist_add_tracks(sp.current_user()['id'], new_playlist['id'], tracks=tracks, position=None)
-
+    url = "https://open.spotify.com/playlist/"+new_playlist['id']
+    return url
     pass
 
 def calculate_books(book_score, track_features):
