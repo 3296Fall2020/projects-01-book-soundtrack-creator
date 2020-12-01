@@ -6,7 +6,6 @@ app_name = 'main'
 urlpatterns = [
     path("", views.index, name="index"),
     path("book_selector/", views.book_selector, name="book_selector"),
-    path("set_user_info/", views.set_user_info, name = "set_user_info"),
     path("book_info/<id>", views.book_info, name = "book emotion classifier"),
     path("login/", views.login, name = "login"),
     path("initial_sign_in/", views.initial_sign_in , name="initial_sign_in"),
