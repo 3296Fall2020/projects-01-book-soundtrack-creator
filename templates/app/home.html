@@ -146,9 +146,9 @@
             <h1>Welcome to Book Sound-track Creator!</h1>
             <br>
             <div class = "sign_in">
-                <a href="{% url 'main:sign_in' %}">
-                    <button class="spotify-login-button btn-lg" onclick="window.open('https://www.youtube.com/watch?v=oHg5SJYRHA0')" style="text-align: center;">Sign in </button>
-                </a><br><br>
+                <button class="spotify-login-button btn-lg" onclick="window.location.href = '/sign_in'" onclick="window.open('https://www.youtube.com/watch?v=oHg5SJYRHA0')" style="text-align: center;">Sign in </button>
+                <p style="text-align: center;">Click the button below to sign in and create all the playlists you want!</p>
+
             </div>
             <img src="{% static 'img/sloth_reading.jpg' %}" alt="Sloth reading">
             <br>
@@ -166,7 +166,6 @@
                 books tab and you might just find a new book to get into! Have fun exploring the site and enjoy all that it has to offer!</p>
         </div>
 
-        <p style="text-align: center;">Click the button below to sign in and create all the playlists you want!</p>
 
         <div class = "footer" style="padding: 3% 0 3% 0">
             <div class="row">

@@ -70,7 +70,7 @@
                 <h1 id="emptySearch"></h1>
                     <div class="row justify-content-center" id="row">
                         {% for book in books %}
-                            <div class="col-md-3 book" name="84" onclick = "window.location.href = '/book_info/{{ book.bookID }}'" style="border: 2px solid rgb(68, 188, 201); margin: 10px; padding: 10px; border-radius: 5px; cursor: pointer;">
+                            <div class="col-md-3 book" name="84" onclick = "window.location.href = '/book_info/{{ book.bookID }}'" style="border: 2px solid #1DB954; margin: 10px; padding: 10px; border-radius: 5px; cursor: pointer;">
                                 <p class="title"  style="font-weight: bold;">{{book.title}}</p>
                                 <p class="author" style="color: white;">{{book.author}}</p>
                                 {% if book.coverImage != "" %}
