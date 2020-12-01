@@ -58,6 +58,7 @@ async function createPlaylist(){
         var btnDiv = document.getElementById('buttons')
         var newButton = document.createElement('button');
         newButton.onclick = window.open(response)
+        newButton.setAttribute('onclick',"window.open('"+response+"')")
         // newButton.setAttribute('href', response);
         newButton.setAttribute('class',"btn btn-lg");
         newButton.innerHTML = "Go to playlist here"
