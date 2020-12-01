@@ -265,10 +265,7 @@ def createPlaylist(request):
             return  response
          # if user has created a playlist for this book
         except:
-            request.session['playlist'+book_id] = 1
-            print("User " +str(request.session['user'])+": "+"createPlaylist: ", form_error)
-
-            
+            request.session['playlist'+book_id] = 1  
             print(book_id)
             book = Book.objects.get(bookID = book_id)
             sp = get_spotify(request)
@@ -629,7 +626,7 @@ def get_track_features(sp, top_tracks_uri):
         tracks_all_data = sp.audio_features(tracks)
         for track_data in tracks_all_data:
             selected_tracks_uri.append(track_data)
-            print(track_data)
+            # print(track_data)
 
     return selected_tracks_uri
             
@@ -639,8 +636,8 @@ def get_track_features(sp, top_tracks_uri):
 def format_book_emotion_dict(book_emotion):
     result = {}
     book_emotion = eval(book_emotion)
-    print(type(book_emotion))
-    print(book_emotion)
+    # print(type(book_emotion))
+    # print(book_emotion)
     book_emotion.pop('positive')
     book_emotion.pop('negative')
     three_largest = nlargest(3, book_emotion, key=book_emotion.get)
