@@ -48,9 +48,11 @@ async function createPlaylist(){
     response = response.form_error
     if(response == "failed"){
         alert("You can only create one playlist per book!")
+        button.innerHTML = "Create Book Soundtrack!"
     }
     else if(response == "failed no history"){
         alert("Not enough listening history.")
+        button.innerHTML = "Create Book Soundtrack!"
     }
     else{
         var btnDiv = document.getElementById('buttons')
@@ -63,8 +65,9 @@ async function createPlaylist(){
         var playlistMsg = document.createElement('p');
         playlistMsg.innerHTML = "Or go to Spotify and you will find the playlist there!"
         document.getElementById('buttons').appendChild(playlistMsg)
+        button.innerHTML = "Playlist created!"
     }
-    button.innerHTML = "Playlist created!"
+    
     console.log("Response: "+response)
 }
 
