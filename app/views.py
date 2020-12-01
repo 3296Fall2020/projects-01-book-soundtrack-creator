@@ -41,7 +41,13 @@ def index(request):
     except:
         request.session['user'] = randint(0, 100)
         user = request.session['user']
-    return render(request, 'home.html',{'user':user})
+    try:
+        auth_code = request.session['auth_code']
+        tokens = request.session['tokens']
+        key = "logged in"
+    except:
+        key = "Please log in"
+    return render(request, 'home.html',{'user':user, 'key':key})
 
 # test view (used this to develop some experimental functionality)
 def test(request):
