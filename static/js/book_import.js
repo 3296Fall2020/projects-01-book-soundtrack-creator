@@ -5,7 +5,7 @@ async function importBook(){
     const title = document.getElementById("title").value
     const author = document.getElementById("author").value
     // console.log(file)
-    const endpoint = "http://3.139.54.214:8000/book_import_upload/";
+    const endpoint = "http://127.0.0.1:8000/book_import_upload/";
     const formData = new FormData();
     formData.append("title", title)
     formData.append("author", author)

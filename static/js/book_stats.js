@@ -1,6 +1,6 @@
 var bookID = window.location.href.split('/')[4]
 console.log(bookID)
-let url = "http://3.139.54.214:8000/get_book/"+bookID
+let url = "http://127.0.0.1:8000/get_book/"+bookID
 let bookEmotionData = {}
 let bookEmotionNew = []
 getBook(url)
@@ -9,7 +9,7 @@ console.log(document.getElementById('chart'))
 var ctx = document.getElementById('chart').getContext('2d');
 
 async function upvote(){
-    endpoint = "http://3.139.54.214:8000/rank/"
+    endpoint = "http://127.0.0.1:8000/rank/"
     const formData = new FormData();
     const rank_type = "upvote"
     const book_id = bookID
@@ -31,7 +31,7 @@ async function upvote(){
 }
 
 async function createPlaylist(){
-    endpoint = "http://3.139.54.214:8000/create_playlist/"
+    endpoint = "http://127.0.0.1:8000/create_playlist/"
     const formData = new FormData();
     const book_id = bookID
     console.log(book_id)
@@ -66,7 +66,7 @@ async function createPlaylist(){
 }
 
 async function downvote(){
-    endpoint = "http://3.139.54.214:8000/rank/"
+    endpoint = "http://127.0.0.1:8000/rank/"
     const formData = new FormData();
     const rank_type = "downvote"
     const book_id = bookID
