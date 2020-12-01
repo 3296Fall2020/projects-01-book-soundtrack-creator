@@ -524,7 +524,7 @@ def calculate_books(book_score, track_features):
             i+=1
             if i >= 10:
                 break
-        return tracks
+    return tracks
 
 def calculate_book_score(book_emotion_dict):
     count = 0
@@ -564,7 +564,7 @@ def aggregate_top_artists(sp):
     return top_artists_uri
 
 def aggregate_top_tracks(sp, top_artists_uri):
-    print("User " +str(request.session['user'])+": "+"...getting top tracks")
+    print("...getting top tracks")
 
     # top_tracks_name = []
     top_tracks_uri = []
@@ -579,7 +579,7 @@ def aggregate_top_tracks(sp, top_artists_uri):
 
 
 def get_track_features(sp, top_tracks_uri):
-    print("User " +str(request.session['user'])+": "+"...getting track features")
+    print("...getting track features")
 
     selected_tracks_uri = []
     
@@ -590,12 +590,12 @@ def get_track_features(sp, top_tracks_uri):
         tracks_all_data = sp.audio_features(tracks)
         for track_data in tracks_all_data:
             selected_tracks_uri.append(track_data)
-            print("User " +str(request.session['user'])+": "+track_data)
+            print(track_data)
 
     return selected_tracks_uri
             
-    # print("User " +str(request.session['user'])+": "+len(top_tracks_uri))
-    # print("User " +str(request.session['user'])+": "+len(selected_tracks_uri))
+    # print(len(top_tracks_uri))
+    # print(len(selected_tracks_uri))
 
 def format_book_emotion_dict(book_emotion):
     result = {}
