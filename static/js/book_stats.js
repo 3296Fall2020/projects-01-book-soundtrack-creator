@@ -60,6 +60,8 @@ async function createPlaylist(){
         newButton.setAttribute('class',"btn btn-lg");
         newButton.innerHTML = "Go to playlist here"
         document.getElementById('buttons').appendChild(newButton)
+        var playlistMsg = document.createElement('p');
+        playlistMsg.innerHTML = "Or go to Spotify and you will find the playlist there!"
     }
     button.innerHTML = "Playlist created!"
     console.log("Response: "+response)

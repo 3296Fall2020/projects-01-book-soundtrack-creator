@@ -143,7 +143,7 @@ def profile(request):
     # user hasn't logged in
     except:
         request.session['url'] = "/profile"
-        return HttpResponseRedirect("/login")
+        return HttpResponseRedirect("/")
     sp = get_spotify(request)
     
     try:
@@ -211,7 +211,7 @@ def book_selector(request):
         # user hasn't logged in and wants to access the book selector page
         if(request.GET.get('code') is None):
             request.session['url'] = "/book_selector"
-            return HttpResponseRedirect("/login")
+            return HttpResponseRedirect("/")
 
         # first time user is logging in
         # this means that the user just got redirected from spotify
@@ -529,7 +529,7 @@ def book_info(request, *args, **kwargs):
         tokens = request.session['tokens']
     # user hasn't logged in
     except:
-        return HttpResponseRedirect("/login")
+        return HttpResponseRedirect("/")
     # print("User " +str(request.session['user'])+": "+auth_code)
     
     sp = spotipy.Spotify(tokens['access_token'])
@@ -704,5 +704,5 @@ def find_books(request):
     # user hasn't logged in
     except:
         request.session['url'] = "/find_books"
-        return HttpResponseRedirect("/login")
+        return HttpResponseRedirect("/")
     return render(request, 'find_books.html')
