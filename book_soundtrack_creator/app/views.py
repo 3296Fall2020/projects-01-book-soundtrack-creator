@@ -19,7 +19,7 @@ import re
 scope = 'user-library-read'
 SPOTIPY_CLIENT_ID = ''
 SPOTIPY_CLIENT_SECRET = ''
-SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
+SPOTIPY_REDIRECT_URI = 'http://3.139.54.214:8000/book_selector/'
 username = ''
 
 def index(request):
