@@ -237,10 +237,12 @@ def book_selector(request):
             print("User " +str(request.session['user'])+": "+"\n\n++++++++++++++++++++++++++++++++++++++++++++++NEW USER LOGGED IN+++++++++++++++++++++++++++++++++++++++++++++\n\n"
                         +str(sp.current_user())+
                   "\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
-            
-            if(request.session['url'] != "/book_selector"):
-                return HttpResponseRedirect(request.session['url'])
-
+            try:
+                url = request.session['url']
+                if(url != "/book_selector"):
+                    return HttpResponseRedirect(request.session['url'])
+            except:
+                pass
         # print("User " +str(request.session['user'])+": "+"authcode 2: ", auth_code)
     # print("User " +str(request.session['user'])+": "+"book_selector -- tokens from spotify: ",request.session['tokens'])
     books = Book.objects.all()
@@ -251,6 +253,7 @@ def book_selector(request):
 def book_import(request):
     return render (request, 'book_import.html')
 
+@csrf_exempt
 def createPlaylist(request):
     if request.method == 'POST':
         book_id = request.POST.get('book_id')
