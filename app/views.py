@@ -244,7 +244,7 @@ def book_selector(request):
         # print("User " +str(request.session['user'])+": "+"authcode 2: ", auth_code)
     # print("User " +str(request.session['user'])+": "+"book_selector -- tokens from spotify: ",request.session['tokens'])
     books = Book.objects.all()
-    books = books.order_by('bookRank').reverse()[:10] #reverse ranks books
+    books = books.order_by('bookRank').reverse()[:9] #reverse ranks books
     return render(request, 'book_selector.html', {'books' : books})
    
    
@@ -683,4 +683,11 @@ def sign_in(request):
 
 # serves find books to user
 def find_books(request):
+    try:
+        auth_code = request.session['auth_code']
+        tokens = request.session['tokens']
+    # user hasn't logged in
+    except:
+        request.session['url'] = "/find_books"
+        return HttpResponseRedirect("/login")
     return render(request, 'find_books.html')

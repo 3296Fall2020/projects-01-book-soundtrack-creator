@@ -11,6 +11,8 @@
             <link rel = "stylesheet" href="{% static 'css/guten.css' %}">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         </head>
+        <button class="btn btn-lg" onclick="window.location.href = '/book_import'">Import a book</button>
+        <br><br>
         <h1 style="text-align: center;">Gutenberg books <a href="http://gutenberg.org/" target="_blank">Learn more!</a></h1>
         <!-- testing auto complete form -->
         <!DOCTYPE html>
@@ -41,10 +43,18 @@
             button[type=submit]:hover {
                 color: black;
             }
+
+            .nextbtn{
+                text-align: right;
+            }
+            .lastbtn{
+                text-align: left;
+            }
         </style>
         </head>     
         <body>
-
+        
+        
         <form align = "center" autocomplete="off" method="POST">
             <div class="autocomplete" style="width:300px;">
                 <input type = "text" placeholder = "Search for a Book Title or Author" name ="search" id = "bookSearch">
@@ -60,15 +70,20 @@
         </form>
         <br>
         <b><h3 style="text-align: center; color: white;">The Find books! page is where you'll be able to find the books you want to     make playlistsfor. Simply click on any book from the provided pages to generate a playlist for it in spotfy! Doing so will also allow you to view statistics for it as well! If you can't seem to find a book you want, the option to import a book is available directly below as well!</h3></b><br>
+        <div class = "lastbtn">
+            <button class="btn btn-lg" onclick="lastPage()" style="float: left;">LAST</button>
+        </div>
+        <div class = "nextbtn">
+            <button class="btn btn-lg" onclick="nextPage()" style="float: right;">NEXT</button>
+        </div>
+        <br>
+        <br>
+        <br>
         <!-- The import button will be right below, its commented out for now -->
-        <a href="/book_import">
-            <button class="btn btn-lg">Import a book</button>
-        </a><br><br>
-        <button class="btn btn-lg" onclick="lastPage()" style="float: left;">LAST</button>
-        <button class="btn btn-lg" onclick="nextPage()" style="float: right;">NEXT</button>
-        
         <div class="grid-container d-flex justify-content-between" id = "container">
             <h1 id = "emptySearch"></h1>
+            
+            
             <div class = "row justify-content-center"  id = "row"></div>
         </div>
         <button class="btn btn-lg" onclick="lastPage()" style="float: left;">LAST</button>
