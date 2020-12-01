@@ -220,13 +220,9 @@ def book_selector(request):
         print("authcode 2: ", auth_code)
     print(request.session['tokens'])
     books = Book.objects.all()
-    books = books.order_by('bookRank').reverse()
+    books = books.order_by('bookRank').reverse()[:10]
+    # print (type(books))
     return render(request, 'book_selector.html', {'books' : books})
-
-    #books = books.order_by('bookRank').reverse()
-    #for x in range(11):
-    #    topTenBooks = x
-    #return render(request, 'book_selector.html', {'books' : topTenBooks})
    
    
 def book_import(request):

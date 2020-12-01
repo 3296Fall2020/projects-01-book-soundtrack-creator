@@ -37,6 +37,15 @@
                 color: white;
             }
 
+            .spotify-login-button {
+                color: white;
+                background-color: #1DB954;
+            }
+
+            .spotify-login-button:hover {
+                color: black;
+            }
+
             .footer {
                 color: white;
 	            background-color: #1DB954;;
@@ -135,15 +144,21 @@
         </div>
 
         <div class="description">
-            <p style="text-align: center;"> Have you ever wanted to read a book with your croissant or 
-                bagel in the morning but weren't in the mood? With our website you'll never have that issue 
-                again! Click on the tab, Find books!, to get started. While on there you'll be able to select 
-                any book, from the provided list, that you want a playlist for. If the book you want isn't listed 
-                then you'll be able to import it as long as you have the file for it! When a book is selected, not 
-                only will a playlist be generated but you'll also be able to see statistics for it as well. If you're
-                more interested in the most popular books people are makng playlsits for, check out the popular books page
-                and created playlsits for them too! Have fun exploring the site and enjoy your new playlists for each of your books!</p>
+            <p style="text-align: center;"> Have you ever wanted to read a book with your croissant 
+                in the morning but weren't in the mood? With our website you'll never have that issue 
+                again! By logging in with your spotify account, you'll be able to have a playlist generated 
+                for any book you want! All you have to do is select a book from the list provided on the Find Books!
+                page, or import a book of your choice. When a book is selected, a playlist will then be generated for you
+                in Spotify, its that simple! You'll then be able to view statistics about the book and what kind of moods it
+                portrays! If you were curiuos what the top 10 rated books are on the site, check out the popular
+                books tab and you might just find a new book to get into! Have fun exploring the site and enjoy all that it has to offer!</p>
         </div>
+
+        <p style="text-align: center;">Click the button below to sign in and create all the playlists you want!</p>
+
+        <a href="{% url 'main:sign_in' %}">
+            <button class="spotify-login-button btn-lg" style="text-align: center;">Sign in </button>
+        </a><br><br>
 
         <div class = "footer" style="padding: 3% 0 3% 0">
             <div class="row">
