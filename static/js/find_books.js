@@ -29,7 +29,7 @@ function loadPage(){
         bookDiv.setAttribute('class', "col-md-3 book");
         bookDiv.setAttribute('id', 'book'+book);
         bookDiv.setAttribute('name', books[book].id + '')
-        bookDiv.style.border = "2px solid #44bcc9"
+        bookDiv.style.border = "2px solid #1DB954"
         bookDiv.style.margin = "10px"
         bookDiv.style.padding = "10px"
         bookDiv.style.borderRadius = "5px"
