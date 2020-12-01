@@ -1,7 +1,7 @@
 .navbar-custom {
 	background-color: #212121;
 	color: white;
-	box-shadow: 0px 0px 5px 0px #5ebcff;
+	box-shadow: 0px 0px 5px 0px  #1DB954;
 }
 
 #navDiv {
@@ -17,7 +17,7 @@
 
 .nav-link:hover {
 	color: white;
-	background-color: #1DB954;;
+	background-color: #1DB954;
 
 }
 
@@ -31,8 +31,12 @@
 
 .nav-item {
 /*	padding-left: 90px; */
+	/* border: 1px solid #1DB954;
+	border-radius: 5px; */
 	font-size: 25px;
 	font-family: 'Raleway';
+	margin: 2px;
+	margin-right: 20px;
 }
 
 .navbar-brand {
@@ -72,7 +76,6 @@
 	margin-left: -15px;
 	margin-top: -5px;
 	margin-right: 5px;
-	
 }
 
 .container .fixed-top {
