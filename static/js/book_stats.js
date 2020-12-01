@@ -49,8 +49,17 @@ async function createPlaylist(){
     if(response == "failed"){
         alert("You can only create one playlist per book!")
     }
-    if(response == "failed no history"){
+    else if(response == "failed no history"){
         alert("Not enough listening history.")
+    }
+    else{
+        var btnDiv = document.getElementById('buttons')
+        var newButton = document.createElement('button');
+        newButton.onclick = window.open(response)
+        // newButton.setAttribute('href', response);
+        newButton.setAttribute('class',"btn btn-lg");
+        newButton.innerHTML = "Go to playlist here"
+        document.getElementById('buttons').appendChild(newButton)
     }
     button.innerHTML = "Playlist created!"
     console.log("Response: "+response)
