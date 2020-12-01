@@ -1,6 +1,6 @@
 var bookID = window.location.href.split('/')[4]
 console.log(bookID)
-let url = "http://3.139.54.214:8000/get_book/"+bookID
+let url = "http://127.0.0.1:8000/get_book/"+bookID
 let bookEmotionData = {}
 let bookEmotionNew = []
 getBook(url)
