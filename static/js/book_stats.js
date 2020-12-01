@@ -8,6 +8,9 @@ console.log(getBook(url))
 console.log(document.getElementById('chart'))
 var ctx = document.getElementById('chart').getContext('2d');
 
+function linkTest(){
+    window.open('http://gutenberg.org/ebooks/'+bookID)
+}
 async function upvote(){
     endpoint = "http://3.139.54.214:8000/rank/"
     const formData = new FormData();
