@@ -12,7 +12,6 @@
 .nav-link{
 	color: white;
 	border-radius: 5px;
-	
 }
 
 .nav-link:hover {
@@ -35,8 +34,8 @@
 	border-radius: 5px; */
 	font-size: 25px;
 	font-family: 'Raleway';
-	margin: 2px;
-	margin-right: 20px;
+	margin: 5px;
+	
 }
 
 .navbar-brand {
