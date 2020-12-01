@@ -579,7 +579,7 @@ def aggregate_top_tracks(sp, top_artists_uri):
 
 
 def get_track_features(sp, top_tracks_uri):
-    print("User " +str(request.session['user'])+": "+"...getting track features")
+    print("...getting track features")
 
     selected_tracks_uri = []
     
@@ -590,12 +590,12 @@ def get_track_features(sp, top_tracks_uri):
         tracks_all_data = sp.audio_features(tracks)
         for track_data in tracks_all_data:
             selected_tracks_uri.append(track_data)
-            print("User " +str(request.session['user'])+": "+track_data)
+            print(track_data)
 
     return selected_tracks_uri
             
-    # print("User " +str(request.session['user'])+": "+len(top_tracks_uri))
-    # print("User " +str(request.session['user'])+": "+len(selected_tracks_uri))
+    # print(len(top_tracks_uri))
+    # print(len(selected_tracks_uri))
 
 def format_book_emotion_dict(book_emotion):
     result = {}
