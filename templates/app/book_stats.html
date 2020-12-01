@@ -38,6 +38,9 @@
             <h1>Statistics for <u><i>{{book.title}}</i></u></h1><br><br>
             <button class="btn btn-lg">Link to Text<a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank"></a></button><br>
             <button class="btn btn-lg" onclick="downvote()">Downvote!</button><h3>Current # Votes: {{book.bookRank}}</h3><button class="btn btn-lg" onclick="upvote()">Upvote!</button><br><br>
+            <div id = "buttons">
+                <button class="btn btn-lg" onclick="createPlaylist()" id="playlist">Create Book Soundtrack!</button>
+            </div><br>
             {% if book.coverImage != "" %}
             <div class="card" style="width: 18rem;">
               <img class="card-img-top" src="{{book.coverImage.url}}" alt="Card image cap">
@@ -46,9 +49,7 @@
               </div>
             </div><br>
             {% endif %}
-            <div id = "buttons">
-                <button class="btn btn-lg" onclick="createPlaylist()" id="playlist">Create Playlist!</button>
-            </div><br>
+           
             <div class="chartDiv" style="width: 70%; height: 50%;">
                 <canvas id="chart"></canvas>
             </div>
