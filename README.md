@@ -14,7 +14,7 @@ projects-01-book-soundtrack-creator created by GitHub Classroom
 
 For testing we did mostly manual testing after each new feature. After the code was pushed onto the main branch, we would all go through, run the code and test it's core functionality as well as how it fit into the flow of things. We developed a list on Trello that was for bugs/errors in the program. Django has really good error/debugging pages integrated into it. Once the bug was on the list, whoever was responsible for that section of the code would open the ticket and begin working on it. We repeated this cycle until all of our main functionality was done. Then we launched the app on an AWS webserver, this gave us the ability to send the website to our friends to do rounds of testing. While people used the app we were able to see messages on the terminal of their activity, and any errors that came up. Each user is assigned a user ID when they begin using the app. This ID is printed out with every signifcant status update so that we were able to track the users as the navigated through our app. We did multiple rounds of this kind of testing until we were confident that all bugs had been resolved. Below you can see an example of one of the readouts from the server as two users navigated the sight. 
 
-[Testing picture](https://github.com/3296Fall2020/projects-01-book-soundtrack-creator/testing_screenshot.png)
+![Testing picture](testing_screenshot.png)
 
 ## Project Overview
 
