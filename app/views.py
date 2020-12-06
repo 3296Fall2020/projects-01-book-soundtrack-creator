@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.http import HttpResponse, JsonResponse, Http404
 from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 import requests
 from .models import *
 from PIL import Image
@@ -30,61 +31,42 @@ seed(1)
 scope = 'user-library-read user-top-read user-follow-read playlist-modify-public playlist-modify-private'
 SPOTIPY_CLIENT_ID = '1d19391e82ac405fb02f35ebf74cc767'
 SPOTIPY_CLIENT_SECRET = '156400e3d8834a8395aaf95d420bb215'
-SPOTIPY_REDIRECT_URI = 'http://3.139.54.214:8000/book_selector/'
+SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/book_selector/'
 username = ''
 CACHE = '.spotipyoauthcache'
 
 # Serves homepage and starts user session
 def index(request):
+    if(request.session['status'] == "logged out"):
+        messages.success(request, "You have successfully logged out")
+        request.session['status'] = "none"
     try:
         user = request.session['user']
     except:
         request.session['user'] = randint(0, 100)
         user = request.session['user']
-    return render(request, 'home.html',{'user':user})
+    try:
+        auth_code = request.session['auth_code']
+        tokens = request.session['tokens']
+        logged_on = 1
+        return render(request, 'home.html',{'logged_on':logged_on})
+    except:
+        logged_on = 0
+        return render(request, 'home.html',{'logged_on':logged_on})
+    
 
 # test view (used this to develop some experimental functionality)
 def test(request):
-    count = 1
-    requests_response = requests.get("http://3.139.54.214:8000/find_books/")
+    # count = 1
+    # requests_response = requests.get("http://127.0.0.1:8000/find_books/")
     try:
         user = request.session['user']
     except:
         request.session['user'] = randint(0, 100)
-    # print("User " +str(request.session['user'])+": "+requests_response.content)
-    # r = requests.get("http://gutendex.com/books/"+str(count)).json()
-    # authors = set()
-    # print("User " +str(request.session['user'])+": "+'id' in r)
-    # while(count < 67000):
-        
-    #     if(len(r['authors']) > 0):
-    #         # for a in r['authors']  :
-    #         print("User " +str(request.session['user'])+": "+r['authors'][0]['name'] + " " +str(count))    
-    #         authors.add(r['authors'][0]['name'])
-    #     count +=1
-    #     r = requests.get("http://gutendex.com/books/"+str(count)).json()
-    #     if(count % 100 == 0):
-    #         print("User " +str(request.session['user'])+": "+str(count/65000) + "%")
-    #     while(not('authors' in r)):
-    #         print("User " +str(request.session['user'])+": "+"missing response! " + str(count))
-    #         count += 1
-    #         r = requests.get("http://gutendex.com/books/"+str(count)).json()
 
-    # print("User " +str(request.session['user'])+": "+authors)
-    # while(requests.get("https://www.gutenberg.org/books/"+count)
-    # requests_response = requests.get("https://www.gutenberg.org/browse/authors/a")
-    # print("User " +str(request.session['user'])+": "+requests_response)
-    soup = BeautifulSoup(requests_response, 'html.parser')
-    # bookshelf = soup.find_all('li')
-    # print("User " +str(request.session['user'])+": "+"hellooooo" ,bookshelf)
-    # print("User " +str(request.session['user'])+": "+soup)
-    django_response = HttpResponse(
-        content=requests_response.content,
-        status=requests_response.status_code,
-        content_type=requests_response.headers['Content-Type']
-    )
-    # print("User " +str(request.session['user'])+": "+django_response.content)
-    return django_response
+    messages.success(request, 'You successfully made this happen')
+
+    return render(request, 'test.html')
     
 # TODO this is no longer needed
 # Serves login page 
@@ -187,7 +169,7 @@ def logout(request):
         print("LOGOUT: All session keys deleted")
         print("LOGOUT: User logged out")
         print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n\n")
-        
+    request.session['status'] = "logged out"
     return HttpResponseRedirect('/')
 
 # acts as the main redirect page after spotify log in
@@ -200,6 +182,7 @@ def book_selector(request):
     try:
         auth_code = request.session['auth_code']
         tokens = request.session['tokens']
+        
     # prompts user to login to spotify or logs them into app if redirected from spotify
     except:
         # user hasn't logged in and wants to access the book selector page
@@ -233,6 +216,8 @@ def book_selector(request):
                 'access_token': res_data.get('access_token'),
                 'refresh_token': res_data.get('refresh_token'),
             }
+            messages.success(request, "You have successfully logged in")
+            request.session['status'] = "logged on"
             sp = get_spotify(request)
             print("User " +str(request.session['user'])+": "+"\n\n++++++++++++++++++++++++++++++++++++++++++++++NEW USER LOGGED IN+++++++++++++++++++++++++++++++++++++++++++++\n\n"
                         +str(sp.current_user())+
