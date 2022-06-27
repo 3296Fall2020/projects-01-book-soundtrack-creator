@@ -1,0 +1,112 @@
+.navbar-custom {
+	background-color: #212121;
+	color: white;
+	box-shadow: 0px 0px 5px 0px  #1DB954;
+}
+
+#navDiv {
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.nav-link{
+	color: white;
+	border-radius: 5px;
+	
+}
+
+.nav-link:hover {
+	color: white;
+	background-color: #1DB954;
+
+}
+
+#menuCollapse {
+	font-family: 'Raleway';
+	color: white;
+	padding-top: 15%;
+	font-size: 2vh;
+}
+
+
+.nav-item {
+/*	padding-left: 90px; */
+	/* border: 1px solid #1DB954;
+	border-radius: 5px; */
+	font-size: 25px;
+	font-family: 'Raleway';
+	margin: 2px;
+	margin-right: 20px;
+}
+
+.navbar-brand {
+	color: white;
+	
+}
+
+@media (max-width: 1250px) { 
+    #brandText {
+        visibility: hidden;
+        display: none;
+        display: inline;
+        position: absolute;
+    }
+
+    #menuCollapse {
+    	justify-content: right;
+    	display: inline;
+    	position: relative;
+    }
+
+}
+
+.navbar-brand:hover {
+	color: #44bcc9;
+	
+}
+
+.navBarColor {
+	background-color: white;
+}
+
+#nav_logo {
+	width: 175px;
+	height: 55px;
+	margin-bottom: 3px;
+	margin-left: -15px;
+	margin-top: -5px;
+	margin-right: 5px;
+}
+
+.container .fixed-top {
+	background-color: #00204a;
+}
+
+
+@media (max-width: 1250px) {
+	 .nav-item {
+	font-size: 2vh;
+	font-family: 'Raleway';
+	text-align: right;
+	float: right;
+	margin-right: 2%;
+	}
+
+	.nav-link{
+	color: white;
+	border-radius: 5px;
+	transition: all 1s ease;
+	text-align: right;
+	float: right;
+}
+
+.nav-link:hover {
+	color: white;
+	background-color: #44bcc9;
+	-webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    -ms-transform: all .5s ease;
+}
+
+}

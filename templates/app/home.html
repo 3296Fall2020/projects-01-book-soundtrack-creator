@@ -1,0 +1,196 @@
+{}
+{% include "navbar.html" %}
+{% load static %}
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!--CSS stuffsss right here, we fancy lookin-->
+        <style>
+            .home h1{
+                margin: auto;
+                text-align: center;
+                width: 50%;
+                padding: 10px;
+            }
+
+            .home img{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 300px;
+                height: 300px;
+            }
+
+            .description{
+                margin-left: 15%;
+                margin-right: 15%;
+                padding: 10px;
+            }
+
+            #footerDiv {
+                text-align: left;
+                padding-top: 100px;
+                padding-bottom: 100px;
+                font-family: 'Raleway', sans-serif;
+            }
+
+            body {
+                background-color: #212121;
+                color: white;
+            }
+
+            .spotify-login-button {
+                color: white;
+                background-color: #1DB954;
+            }
+
+            .spotify-login-button:hover {
+                color: black;
+            }
+
+            .footer {
+                color: white;
+	            background-color: #1DB954;;
+            }
+
+            #footerBottom {
+                color: white;
+            }
+
+            #footerContainer {
+                background-color: #4682B4;
+                padding: 1.5%;
+                margin-left: 0px;
+            }
+
+            #abth1 {
+                font-family: 'Raleway', sans-serif;
+                color: white;
+                font-size: 20px;
+            }
+
+            #footer_logo {
+                width: 20%;
+            }
+
+            #footerP {
+                color: white;
+                margin-top: 5%;
+                font-size: 15px;
+            }
+
+            .fa {
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+            text-decoration: none;
+            margin: 5px 2px;
+            border-radius: 20px;
+            }
+
+            .fa a {
+                text-decoration: none;
+            }
+
+            .fa:hover {
+                color: black;
+                text-decoration: none;
+            }
+
+            #copyright {
+                font-size: 12px;
+            }
+
+            .footer-col {
+                margin: auto;
+                padding: 0 5% 0 5%;
+                width: 45%;
+            }
+
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            #relatedLinksList {
+                list-style: none;
+                color: white;
+                text-align: center;
+            }
+
+            .footerlink {
+                color: white;
+            }
+
+            #linksH1 {
+                font-size: 25px;
+                text-align: center;
+                font-weight: bold;
+                margin-left: 30px;
+            }
+
+            a:link {
+                text-decoration: none;
+            }
+            .sign_in{
+                text-align: center;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <div class="home" style="margin-top: 7%;">
+            <h1>Welcome to Book Sound-track Creator!</h1>
+            <br>
+            <div class = "sign_in">
+                <button class="spotify-login-button btn-lg" onclick="window.location.href = '/sign_in'" onclick="window.open('https://www.youtube.com/watch?v=oHg5SJYRHA0')" style="text-align: center;">Sign in </button>
+                <br>
+                <br>
+                <br>
+            </div>
+            <img src="{% static 'img/sloth_reading.jpg' %}" alt="Sloth reading">
+            <br>
+            <!--<p style="text-align: center;">You are user {{user}}!</p> -->
+        </div>
+        
+        <div class="description">
+            <p style="text-align: center;"> Have you ever wanted to read a book with your croissant 
+                in the morning but weren't in the mood? With our website you'll never have that issue 
+                again! By logging in with your spotify account, you'll be able to have a playlist generated 
+                for any book you want! All you have to do is select a book from the list provided on the Find Books!
+                page, or import a book of your choice. When a book is selected, a playlist will then be generated for you
+                in Spotify, its that simple! You'll then be able to view statistics about the book and what kind of moods it
+                portrays! If you were curiuos what the top 10 rated books are on the site, check out the popular
+                books tab and you might just find a new book to get into! Have fun exploring the site and enjoy all that it has to offer!</p>
+        </div>
+
+
+        <div class = "footer" style="padding: 3% 0 3% 0">
+            <div class="row">
+                <div class="footer-col">
+                    <h1 id = "linksH1">Recognitions</h1>
+                    <ul id="relatedLinksList">
+                        <li class = "footerlink"><a href="http://gutendex.com/" class = "footerlink">Gutendex</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id = "footerBottom">
+            <div class = "container-fluid" id = "footerContainer">
+                <div class = "row">
+                    <div class = "col" id = "copyright">
+                        © 2020 Tyler's 5 | website developed and maintained by Tyler's 5 |
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html> 

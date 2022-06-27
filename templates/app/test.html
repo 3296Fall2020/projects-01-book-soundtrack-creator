@@ -1,0 +1,39 @@
+'<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href = "/static/css/main.css">
+        <link rel="stylesheet" href = "/static/css/navcss.css">
+        <link rel="icon" type="image/png" href="/static/favicon.ico">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+ 
+  
+     <html> 
+           <body style="margin: 5%;">
+               <head>\n        
+                       <script src = "/static/js/find_books.js"></script>\n    
+                   <link rel = "stylesheet" href="/static/css/guten.css">\n        
+                       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">\n    
+                        </head>\n        <h1 style="text-align: center;">Gutenberg books <a href="http://gutenberg.org/" target="_blank">Learn more!</a>
+                        </h1>\n        <!-- testing auto complete form -->\n       
+                         <!DOCTYPE html>\n   
+                              <html>\n     
+                                <body>\n\n     
+                                       <form align = "center" autocomplete="off" method="POST">\n      
+                                                 <div class="autocomplete" style="width:300px;">\n         
+                                                           <input type = "text" placeholder = "Search for a Book Title or Author" name ="search" id = "bookSearch">\n            </div>\n    
+                                                                   <button type="button" onclick= "getSearchBook()" >Submit</button>\n      
+                                                  </form>\n        <br>\n     
+                                                    <form align = "center" autocomplete="off" method="POST">\n      
+                                                              <div class="autocomplete" style="width:300px;">\n             
+                                                                   <input type = "text" placeholder = "Search for a Book Topic" name ="search" id = "bookTopic">\n       
+                                                                     </div>\n        
+                                                                       <button type="button" onclick= "getBookTopic()" >Submit</button>\n   
+                                                                         </form>\n        <br>\n        <b><h3 style="text-align: center;">Click on a book to download it to your profile!</h3></b>\n        <button onclick="nextPage()" >NEXT</button>\n        \n        <div class="grid-container d-flex justify-content-between" id = "container">\n            <h1 id = "emptySearch"></h1>\n            <div class = "row justify-content-center"  id = "row">
+
+</div>\n            \n        </div>\n        

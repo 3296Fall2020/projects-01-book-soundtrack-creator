@@ -1,0 +1,59 @@
+{% include "navbar.html" %}
+<html lang = "en">
+    {% load static %}
+    <head>
+        <link rel="stylesheet" href = "{%static '/css/mainNew.css' %}">
+        <style>
+            body{
+                background-color: #212121;
+                color: black;
+            }
+            h1, h2{
+                color: white;
+                display: inline;
+            }
+            h3{
+                color: white;
+                display: inline;
+            }
+            .chartDiv{
+                background-color: white;
+            }
+            a{
+                color: #1DB954;
+            }
+            a:hover{
+                color: #1DB954;
+            }
+            .btn{
+                color: white;
+                background-color: #1DB954;
+                margin: 2%;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <br>
+            <h1>Statistics for <u><i>{{book.title}}</i></u></h1><br><br>
+            <button class="btn btn-lg">Link to Text<a href="http://gutenberg.org/ebooks/{{book.bookID}}" target="_blank"></a></button><br>
+            <button class="btn btn-lg" onclick="downvote()">Downvote!</button><h3>Current # Votes: {{book.bookRank}}</h3><button class="btn btn-lg" onclick="upvote()">Upvote!</button><br><br>
+            {% if book.coverImage != "" %}
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="{{book.coverImage.url}}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Total Word Count: {{book.wordCount}} words</h5>
+              </div>
+            </div><br>
+            {% endif %}
+            <div id = "buttons">
+                <button class="btn btn-lg" onclick="createPlaylist()" id="playlist">Create Playlist!</button>
+            </div><br>
+            <div class="chartDiv" style="width: 70%; height: 50%;">
+                <canvas id="chart"></canvas>
+            </div>
+        </center>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+    <script src = "{%static '/js/book_stats.js' %}"></script>
+</html>

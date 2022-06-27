@@ -1,0 +1,91 @@
+{% include "navbar.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="bootstrap-4.5.3-dist/css/bootstrap.min.css"/> -->
+        <!-- <script src="bootstrap-4.5.3-dist/js/bootstrap.min.js"></script> -->
+
+        <title>Book Selector</title>
+
+        <!--CSS stuff right here, we stylish-->
+        <style>
+
+            body {
+                background-color: #212121;
+            }
+
+            .container-fluid {
+                font-family: Tahoma, Geneva, sans-serif;
+            }
+
+            .container-fluid h1 {
+                text-align: center;
+                color: #131212;
+                font-size: 24px;
+                padding: 20px 0 20px 0;
+            }
+
+            .button {
+               /* border: 0px; */
+                color: white;
+                background-color: #1DB954;
+                width: 100%;
+                padding: 15px;
+                border: 0;
+                box-sizing: border-box;
+                cursor: pointer;
+                font-size: bold;
+                /* box-shadow: 1px 1px 1px; */
+                transition: width .5s;
+            }
+
+            button:hover {
+                color: black;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container-fluid" id = "container-fluid">
+            <div class="title">
+                <h1 style="text-align: center;">Book Seclection</h1>
+            </div>
+            <div class="explanation">
+                <p style="text-align: center;">Select a book from the list below or click the button to enter a book of your choice!</p>
+            </div>
+            <h1 style="color: white">Here on the popular books page, the top 10 ranked books on the site are shown in order from higest rated to least rated.
+                Click on any of the books provided to show more informaion about them! 
+            </h1>
+            
+            <!--This row and column system will house the books being read in by Django-->
+            <div class="grid-container d-flex justify-content-between" id="container" style="color: white">
+                <h1 id="emptySearch"></h1>
+                    <div class="row justify-content-center" id="row">
+                        {% for book in books %}
+                            <div class="col-md-3 book" name="84" onclick = "window.location.href = '/book_info/{{ book.bookID }}'" style="border: 2px solid #1DB954; margin: 10px; padding: 10px; border-radius: 5px; cursor: pointer;">
+                                <p class="title"  style="font-weight: bold;">{{book.title}}</p>
+                                <p class="author" style="color: white;">{{book.author}}</p>
+                                {% if book.coverImage != "" %}
+                                        <img src= "{{book.coverImage.url}}" alt="Book Cover" style="height: 200px; width: 125px;" class="card-img-top">    
+                                {% endif %}
+                                <p>rank: {{book.bookRank}}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+            </div>
+        </div>
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+
+</html>
